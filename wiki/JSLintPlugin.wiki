@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+#labels Featured,Phase-Design
+
+= Introduction =
+
+JavaScript code style checker plugin for IntellijIDEA
+
+
+= Details =
+Use Case:
+Пользователь открывает JavaScript файл,
+запускает проверку code-style и
+получает результаты либо в виде таблицы, либо подсвеченный код прямо в редакторе.
+
+Для валидации используется http://jslint.com
+
+В рамках работы над плагином необходимо создать обёртку для библиотеки jsLint, написанной на JavaScript.
+
+Javascript код выполняется под любым Javascript движком(например: Rhino,V8)
+
+После выполнения скрипта валидации необходимо интерпретировать результаты обработки.
