@@ -1,0 +1,24 @@
+<idea-plugin version="2">
+    <id>com.jetbrains.puzzlers</id>
+    <name>JavaPuzzlers</name>
+    <description>Prototype of JavaPuzzlers</description>
+    <version>1.0</version>
+    <vendor>YourCompany</vendor>
+    <idea-version since-build="8000"/>
+
+    <application-components>
+    </application-components>
+
+    <project-components>
+        <component>
+            <implementation-class>com.intellij.puzzlers.ui.JavaPuzzlersComponent</implementation-class>
+            <option name="workspace" value="true"/>
+        </component>
+    </project-components>
+
+    <actions>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+</idea-plugin>
