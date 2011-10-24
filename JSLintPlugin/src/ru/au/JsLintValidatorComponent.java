@@ -1,9 +1,13 @@
 package ru.au;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.util.xmlb.annotations.Tag;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +21,7 @@ import javax.swing.*;
         storages = {
                 @Storage(id = "other", file = "$APP_CONFIG$/jsLintValidationPlugin.xml")
         })
-public class JsLintValidatorComponent implements ApplicationComponent, Configurable, PersistentStateComponent<String> {
+public class JsLintValidatorComponent implements ApplicationComponent, Configurable, PersistentStateComponent<JsLintValidatorComponent.CustomState> {
 
     private String phrase;
     private ConfigurationForm form;
@@ -87,11 +91,18 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
 
     }
 
-    public String getState() {
-        return phrase;
+    public CustomState getState() {
+      CustomState customState = new CustomState();
+      customState.phase = this.phrase;
+      return customState;
     }
 
-    public void loadState(String state) {
-        this.phrase = state;
+    public void loadState(CustomState state) {
+        this.phrase = state.phase;
     }
+
+  public static class CustomState {
+    @Tag("phase")
+    public String phase;
+  }
 }
