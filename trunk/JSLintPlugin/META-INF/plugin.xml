@@ -8,7 +8,7 @@
   <application-components>
     <!-- Add your application components here -->
       <component>
-          <implementation-class>ru.au.JsLintValidatorComponent</implementation-class>
+          <implementation-class>com.jetbrains.au.jslintplugin.JsLintValidatorComponent</implementation-class>
       </component>
   </application-components>
 
@@ -18,7 +18,7 @@
 
   <actions>
     <!-- Add your actions here -->
-      <action id="JsLintPlugin.HelloAction" class="ru.au.HelloAction" text="Hello world action" description="say hello">
+      <action id="JsLintPlugin.HelloAction" class="com.jetbrains.au.jslintplugin.HelloAction" text="Hello world action" description="say hello">
           <add-to-group group-id="HelpMenu" anchor="first"/>
       </action>
   </actions>
