@@ -36,7 +36,7 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
 
     @NotNull
     public String getComponentName() {
-        return "ru.au.JsLintValidatorComponent";
+        return "com.jetbrains.au.jslintplugin";
     }
 
     public String getPhrase() {
@@ -83,9 +83,7 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
         }
     }
 
-    public void disposeUIResources() {
-
-    }
+    public void disposeUIResources() {}
 
     public CustomState getState() {
       CustomState customState = new CustomState();
