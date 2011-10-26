@@ -36,29 +36,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f85b176-584b-43db-abef-7fa8194ef338" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/com/jetbrains/au/jslintplugin" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/com/jetbrains/au" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/HelloAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/com/jetbrains/au/jslintplugin/JsLintValidatorComponentTest.java" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\com\ConfigurationForm.form" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\com\ConfigurationForm.java" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\com\HelloAction.java" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\com\JsLintValidatorComponent.java" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\ru\au\ConfigurationForm.form" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\ru\au\ConfigurationForm.java" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\ru\au\HelloAction.java" afterPath="" />
-      <change type="DELETED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\ru\au\JsLintValidatorComponent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ru" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/js.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ErrorBean.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSLintRunner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintOption.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/Option.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/OptionType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/jslint.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JsLintPlugin.iml" afterPath="$PROJECT_DIR$/JsLintPlugin.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MOVED" beforePath="P:\researce\JetBrains\JSLintPlugin\src\ru\au" afterPath="$PROJECT_DIR$/src/com" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.form" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java" />
     </list>
     <ignored path="JsLintPlugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,6 +68,21 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSLintRunner.java" line="42" class="com.jetbrains.au.jslintplugin.JSLintRunner" package="com.jetbrains.au.jslintplugin">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -117,20 +123,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="plugin.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <file leaf-file-name="JSLintRunner.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSLintRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="53" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0">
+            <state line="21" column="55" selection-start="687" selection-end="687" vertical-scroll-proportion="0.28605482">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Option.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/Option.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="71" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JsLintValidatorComponent.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java">
+      <file leaf-file-name="JsLintOption.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintOption.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="58" selection-start="1935" selection-end="1935" vertical-scroll-proportion="0.6703911">
+            <state line="7" column="12" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OptionType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/OptionType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="22" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigurationForm.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="19" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,55 +179,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConfigurationForm.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java">
+      <file leaf-file-name="JsLintValidatorComponent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="51" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
+            <state line="77" column="41" selection-start="2077" selection-end="2077" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnnamedConfigurable.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/options/UnnamedConfigurable.class">
+      <file leaf-file-name="ErrorBean.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ErrorBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="9" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Banner.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/Banner.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LinkLabel.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/components/labels/LinkLabel.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="20" selection-start="4087" selection-end="4087" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AWTEventMulticaster.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.6.0_25/src.zip!/java/awt/AWTEventMulticaster.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="251" column="0" selection-start="8813" selection-end="8813" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Component.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.6.0_25/src.zip!/java/awt/Component.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6290" column="0" selection-start="229201" selection-end="229201" vertical-scroll-proportion="0.0">
+            <state line="121" column="0" selection-start="2133" selection-end="2133" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -206,20 +207,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/ConfigForm.form" />
-        <option value="$PROJECT_DIR$/src/ConfigForm.java" />
-        <option value="$PROJECT_DIR$/src/JsLintValidatorComponent.java" />
-        <option value="$PROJECT_DIR$/src/ru/au/HelloAction.java" />
-        <option value="$PROJECT_DIR$/src/ru/au/ConfigurationFrom.form" />
-        <option value="$PROJECT_DIR$/src/ru/au/ConfigurationForm.form" />
-        <option value="$PROJECT_DIR$/src/ru/au/ConfigurationForm.java" />
-        <option value="$PROJECT_DIR$/src/ru/au/JsLintValidatorComponentTest.java" />
         <option value="$PROJECT_DIR$/src/ru/au/JsLintValidatorComponent.java" />
         <option value="$PROJECT_DIR$/src/com.jetbrains.au.jslintplugin/JsLintValidatorComponent.java" />
         <option value="$PROJECT_DIR$/src/com.jetbrains.au.jslintplugin/ConfigurationForm.form" />
         <option value="$PROJECT_DIR$/src/com.jetbrains.au.jslintplugin/ConfigurationForm.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/test/com/jetbrains/au/jslintplugin/JsLintValidatorComponentTest.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSRunner.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ErrorBean.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.form" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/Options.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/OptionType.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintOption.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/Option.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSLintRunner.java" />
       </list>
     </option>
   </component>
@@ -288,6 +291,26 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jetbrains" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="au" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jslintplugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ConfigurationForm" />
+              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -329,7 +352,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="META-INF" />
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -345,7 +368,7 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="options.lastSelected" value="http.proxy" />
+    <property name="options.lastSelected" value="project.propCompiler" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -365,11 +388,42 @@
       <recent name="com.jetbrains.au.jslintplugin" />
       <recent name="ru.au" />
     </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.jetbrains.au.jslintplugin" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Plugin.Test">
+  <component name="RunManager" selected="Application.JSLintRunner">
+    <configuration default="false" name="JSLintRunner" type="Application" factoryName="Application" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.jetbrains.au.jslintplugin.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.jetbrains.au.jslintplugin.JSLintRunner" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="P:\WebProjects\web\js\format.js" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="JsLintPlugin" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="53360" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="false" name="All in JsLintPlugin" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="JsLintPlugin" />
@@ -497,6 +551,7 @@
       <module name="JsLintPlugin" />
       <option name="VM_PARAMETERS" value="-Xmx512m" />
       <option name="PROGRAM_PARAMETERS" value="" />
+      <log_file path="$USER_HOME$/.IntelliJIdea10/system/plugins-sandbox/system/log/idea.log" checked="false" skipped="true" show_all="false" alias="IDEA LOG" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="48703" />
         <option name="TRANSPORT" value="0" />
@@ -507,9 +562,10 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.All in JsLintPlugin" />
-      <item index="1" class="java.lang.String" itemvalue="Plugin.Test" />
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Application.JSLintRunner" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.All in JsLintPlugin" />
+      <item index="2" class="java.lang.String" itemvalue="Plugin.Test" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -565,27 +621,27 @@
     <frame x="-8" y="-8" width="1204" height="1040" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32778266" sideWeight="0.67080045" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32778266" sideWeight="0.6233032" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22348817" sideWeight="0.67080045" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20157756" sideWeight="0.6233032" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24981017" sideWeight="0.52910054" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40723982" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37669683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32919955" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919955" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23049957" sideWeight="0.67080045" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32340053" sideWeight="0.6233032" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47089946" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47058824" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329806" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -616,7 +672,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="right project structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="added JSRunner first version (not worked)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -630,6 +686,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="right project structure" />
+    <MESSAGE value="added JSRunner first version (not worked)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -658,72 +715,72 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/com/intellij/openapi/options/newEditor/OptionsEditorDialog.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/com/intellij/errorreport/bean/ErrorBean.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="20" selection-start="3395" selection-end="3395" vertical-scroll-proportion="0.0">
+        <state line="5" column="13" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/com/intellij/openapi/options/newEditor/OptionsEditor.class">
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ErrorBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="286" column="20" selection-start="14997" selection-end="14997" vertical-scroll-proportion="0.0">
+        <state line="121" column="0" selection-start="2133" selection-end="2133" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/Banner.class">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/JavaAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="130" column="25" selection-start="4544" selection-end="4544" vertical-scroll-proportion="0.32555425">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/components/labels/LinkLabel.class">
+    <entry file="jar://C:/Program Files/Java/jdk1.6.0_25/src.zip!/java/io/BufferedInputStream.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="20" selection-start="4087" selection-end="4087" vertical-scroll-proportion="0.0">
+        <state line="443" column="16" selection-start="16247" selection-end="16247" vertical-scroll-proportion="0.8833139">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_25/src.zip!/java/awt/AWTEventMulticaster.java">
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="0" selection-start="8813" selection-end="8813" vertical-scroll-proportion="0.0">
+        <state line="77" column="41" selection-start="2077" selection-end="2077" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_25/src.zip!/java/awt/Component.java">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/NativeArray.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6290" column="0" selection-start="229201" selection-end="229201" vertical-scroll-proportion="0.0">
+        <state line="103" column="11" selection-start="3695" selection-end="3695" vertical-scroll-proportion="-14.302439">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/options/UnnamedConfigurable.class">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/NativeObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="9" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
+        <state line="500" column="18" selection-start="19918" selection-end="19918" vertical-scroll-proportion="13.176471">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/IdScriptableObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="53" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0">
+        <state line="341" column="31" selection-start="12225" selection-end="12225" vertical-scroll-proportion="1.2037383">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/jetbrains/au/jslintplugin/JsLintValidatorComponentTest.java">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/ScriptableObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="38" selection-start="93" selection-end="93" vertical-scroll-proportion="0.124087594">
+        <state line="176" column="59" selection-start="6377" selection-end="6377" vertical-scroll-proportion="4.2156863">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java">
+    <entry file="file://$PROJECT_DIR$/../rhino1_7R3/rhino1_7R3/src/org/mozilla/javascript/Kit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="51" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
+        <state line="343" column="18" selection-start="11963" selection-end="11963" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -733,10 +790,42 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintValidatorComponent.java">
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/OptionType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="58" selection-start="1935" selection-end="1935" vertical-scroll-proportion="0.6703911">
+        <state line="14" column="22" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JsLintOption.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="12" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/Option.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="71" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/ConfigurationForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="19" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/au/jslintplugin/JSLintRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="55" selection-start="687" selection-end="687" vertical-scroll-proportion="0.28605482">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -769,7 +858,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Ext JS</last-edited>
+          <last-edited>JsLint</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -817,6 +906,18 @@
         </settings>
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Rhino</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
           <splitter-proportions>
             <option name="proportions">
