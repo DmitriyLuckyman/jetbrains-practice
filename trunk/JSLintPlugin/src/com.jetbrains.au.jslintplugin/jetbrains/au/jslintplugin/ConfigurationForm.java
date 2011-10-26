@@ -1,6 +1,7 @@
 package com.jetbrains.au.jslintplugin;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * User: luckyman
@@ -20,6 +21,10 @@ public class ConfigurationForm {
 
     public void setPhrase(final String phrase) {
         this.message.setText(phrase);
+    }
+
+    public List<Option> getOptions(){
+       return null;
     }
 
     public boolean isModified(JsLintValidatorComponent data) {
