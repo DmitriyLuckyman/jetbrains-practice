@@ -5,9 +5,9 @@ package com.jetbrains.au.jslintplugin;
  */
 public class Option<E> {
     private JsLintOption option;
-    private Object value;
+    private E value;
 
-    public Option(JsLintOption jsLintOption, Object value) {
+    public Option(JsLintOption<E> jsLintOption, E value) {
         this.option = jsLintOption;
         this.value = value;
     }
@@ -23,11 +23,15 @@ public class Option<E> {
         this.option = jsLintOption;
     }
 
-    public Object getValue() {
+    public E getValue() {
         return OptionType.STRING_ARRAY.equals(option.getType()) ? value : value;
     }
 
-    public void setValue(Object value) {
+    public OptionType getOption() {
+        return option.getType();
+    }
+
+    public void setValue(E value) {
         this.value = value;
     }
 }

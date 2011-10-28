@@ -7,7 +7,6 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.util.xmlb.annotations.Tag;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,14 +20,12 @@ import javax.swing.*;
         storages = {
                 @Storage(id = "jsLintValidationPlugin", file = "$APP_CONFIG$/jsLintValidationPlugin.xml")
         })
-public class JsLintValidatorComponent implements ApplicationComponent, Configurable, PersistentStateComponent<JsLintValidatorComponent.CustomState> {
+public class JsLintValidatorComponent implements ApplicationComponent, Configurable, PersistentStateComponent<JsLintState> {
 
-    private String phrase;
+    private JsLintState state;
     private ConfigurationForm form;
 
-    public JsLintValidatorComponent() {
-        this.phrase = "Hello";
-    }
+    public JsLintValidatorComponent() {}
 
     public void initComponent() {}
 
@@ -37,14 +34,6 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
     @NotNull
     public String getComponentName() {
         return "com.jetbrains.au.jslintplugin";
-    }
-
-    public String getPhrase() {
-        return phrase;
-    }
-
-    public void sayHello(){
-        Messages.showMessageDialog(phrase, "That works", Messages.getInformationIcon());
     }
 
     @Nls
@@ -61,42 +50,35 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
     }
 
     public JComponent createComponent() {
-        if(form == null){
+       // if(form == null){
             form = new ConfigurationForm();
-        }
+       // }
         return form.getRootComponent();
     }
 
     public boolean isModified() {
-        return form != null && form.isModified(this);
+        return form != null && form.isModified(state);
     }
 
     public void apply() throws ConfigurationException {
         if(form != null){
-            this.phrase = form.getPhrase();
+            this.state = form.getJsLintState();
         }
     }
 
     public void reset() {
         if(form != null){
-            this.form.setPhrase(this.phrase);
+            this.form.setJsLintState(this.state);
         }
     }
 
     public void disposeUIResources() {}
 
-    public CustomState getState() {
-      CustomState customState = new CustomState();
-      customState.phase = this.phrase;
-      return customState;
+    public JsLintState getState() {
+        return state;
     }
 
-    public void loadState(CustomState state) {
-        this.phrase = state.phase;
-    }
-
-    public static class CustomState {
-        @Tag("phase")
-        public String phase;
+    public void loadState(JsLintState state) {
+        this.state = state;
     }
 }

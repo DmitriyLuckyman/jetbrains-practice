@@ -4,6 +4,7 @@ import org.mozilla.javascript.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -14,12 +15,11 @@ public class JSLintRunner {
 
     public static void main(String[] args) throws IOException {
         ArrayList<Option> options = new ArrayList<Option>();
-     /*   options.add(new Option("sloppy", true));
-        options.add(new Option("rhino", true));
-        options.add(new Option("vars", true));
-        options.add(new Option("maxerr", 1000));
-        NativeArray predef = new NativeArray(new String[]{"Ext", "Sigma", "console"});
-        options.add(new Option("predef", predef));*/
+        options.add(new Option<Boolean>(JsLintOption.SLOPPY, true));
+        options.add(new Option<Boolean>(JsLintOption.RHINO, true));
+        options.add(new Option<Boolean>(JsLintOption.VARS, true));
+        options.add(new Option<Integer>(JsLintOption.MAXERR, 1000));
+        options.add(new Option<List<String>>(JsLintOption.PREDEF, Arrays.asList("Ext", "Sigma", "console")));
         execute(args[0], options);
     }
 
@@ -46,7 +46,13 @@ public class JSLintRunner {
     private static NativeObject convertToNativeObject(List<Option> options) {
         NativeObject object = new NativeObject();
         for (Option option : options) {
-            object.defineProperty(option.getName(), option.getValue(), ScriptableObject.READONLY);
+            Object value = option.getValue();
+            if(OptionType.STRING_ARRAY.equals(option.getOption())) {
+                List<String> list = (List<String>) value;
+                String[] array = list.toArray(new String[list.size()]);
+                 value = new NativeArray(array);
+            }
+            object.defineProperty(option.getName(), value, ScriptableObject.READONLY);
         }
         return object;
     }
