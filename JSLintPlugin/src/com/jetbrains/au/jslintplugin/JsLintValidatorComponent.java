@@ -7,6 +7,8 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
+import com.jetbrains.au.jslintplugin.config.ConfigurationForm;
+import com.jetbrains.au.jslintplugin.config.JsLintState;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
