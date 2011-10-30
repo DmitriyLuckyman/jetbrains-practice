@@ -45,6 +45,7 @@ public class JsLinkToolWindow {
                 JsLintValidatorComponent validator = application.getComponent(JsLintValidatorComponent.class);
                 JsLintState jsLintState = validator.getState();
                 try {
+                    errorList.removeAll();
                     DataContext toolContext = DataManager.getInstance().getDataContextFromFocus().getResult();
                     Project project = DataKeys.PROJECT.getData(toolContext);
                     FileEditor[] selectedEditors = FileEditorManager.getInstance(project).getSelectedEditors();
