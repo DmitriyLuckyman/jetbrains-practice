@@ -1,4 +1,4 @@
-package com.jetbrains.au.jslintplugin;
+package com.jetbrains.au.jslintplugin.config;
 
 import com.intellij.util.xmlb.annotations.MapAnnotation;
 

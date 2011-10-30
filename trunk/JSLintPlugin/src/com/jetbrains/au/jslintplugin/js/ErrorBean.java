@@ -1,4 +1,4 @@
-package com.jetbrains.au.jslintplugin;
+package com.jetbrains.au.jslintplugin.js;
 
 import org.mozilla.javascript.NativeObject;
 
@@ -8,6 +8,15 @@ import org.mozilla.javascript.NativeObject;
  * Time: 15:34
  */
 public class ErrorBean {
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("line=").append(line)
+                .append(", character=").append(character)
+                .append(", reason='").append(reason)
+                .append(", evidence='").append(evidence).toString();
+    }
+
     /**
      * The line (relative to 0) at which the lint was found
      */

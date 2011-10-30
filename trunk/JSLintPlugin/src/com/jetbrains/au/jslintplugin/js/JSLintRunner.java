@@ -1,10 +1,11 @@
-package com.jetbrains.au.jslintplugin;
+package com.jetbrains.au.jslintplugin.js;
 
+import com.jetbrains.au.jslintplugin.config.JsLintOption;
+import com.jetbrains.au.jslintplugin.config.Option;
 import org.mozilla.javascript.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -15,15 +16,19 @@ public class JSLintRunner {
 
     public static void main(String[] args) throws IOException {
         ArrayList<Option> options = new ArrayList<Option>();
-        options.add(new Option<Boolean>(JsLintOption.SLOPPY, true));
-        options.add(new Option<Boolean>(JsLintOption.RHINO, true));
-        options.add(new Option<Boolean>(JsLintOption.VARS, true));
-        options.add(new Option<Integer>(JsLintOption.MAXERR, 1000));
-        options.add(new Option<List<String>>(JsLintOption.PREDEF, Arrays.asList("Ext", "Sigma", "console")));
+        options.add(new Option(JsLintOption.SLOPPY, "true"));
+        options.add(new Option(JsLintOption.RHINO, "true"));
+        options.add(new Option(JsLintOption.VARS, "true"));
+        options.add(new Option(JsLintOption.MAXERR, "1000"));
+        options.add(new Option(JsLintOption.PREDEF, "Ext, Sigma, console"));
         execute(args[0], options);
     }
 
     public static List<ErrorBean> execute(String scriptFileName, List<Option> options) throws IOException {
+          return execute(new FileInputStream(scriptFileName), options);
+    }
+
+    public static List<ErrorBean> execute(InputStream scriptFileName, List<Option> options) throws IOException {
         ArrayList<ErrorBean> result = new ArrayList<ErrorBean>();
         Context cx = Context.enter();
         try {
@@ -46,11 +51,20 @@ public class JSLintRunner {
     private static NativeObject convertToNativeObject(List<Option> options) {
         NativeObject object = new NativeObject();
         for (Option option : options) {
-            Object value = option.getValue();
-            if(OptionType.STRING_ARRAY.equals(option.getOption())) {
-                List<String> list = (List<String>) value;
-                String[] array = list.toArray(new String[list.size()]);
-                 value = new NativeArray(array);
+            Object value;
+            switch (option.getOption()){
+                case BOOLEAN:
+                    value = Boolean.parseBoolean(option.getValue());
+                    break;
+                case STRING_ARRAY:
+                    value = new NativeArray(option.getValue().split(","));
+                    break;
+                case NUMBER:
+                    value = Integer.valueOf(option.getValue());
+                    break;
+                default:
+                    value = option.getValue();
+                    break;
             }
             object.defineProperty(option.getName(), value, ScriptableObject.READONLY);
         }
@@ -58,7 +72,7 @@ public class JSLintRunner {
     }
 
     private static Object getJSLintFunction(Context cx, Scriptable scope) throws IOException {
-        URL resource = Thread.currentThread().getContextClassLoader().getResource("com/jetbrains/au/jslintplugin/jslint.js");
+        URL resource = JSLintRunner.class.getClassLoader().getResource("com/jetbrains/au/jslintplugin/js/jslint.js");
         InputStreamReader jsLintReader = null;
         try{
             jsLintReader = new InputStreamReader(resource.openStream());
@@ -80,10 +94,10 @@ public class JSLintRunner {
         }
     }
 
-    private static String getSourceAsString(String scriptFileName) throws IOException {
+    private static String getSourceAsString(InputStream script) throws IOException {
         BufferedInputStream scriptBufferedInputStream = null;
         try {
-            scriptBufferedInputStream = new BufferedInputStream(new FileInputStream(scriptFileName));
+            scriptBufferedInputStream = new BufferedInputStream(script);
             StringBuilder scriptSBuilder = new StringBuilder();
             byte[] buf = new byte[1000];
             int count;

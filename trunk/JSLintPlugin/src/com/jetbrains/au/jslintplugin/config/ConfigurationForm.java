@@ -1,4 +1,4 @@
-package com.jetbrains.au.jslintplugin;
+package com.jetbrains.au.jslintplugin.config;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -22,38 +22,41 @@ public class ConfigurationForm {
         }
         for (String optionName : jsLintState.options.keySet()) {
             JComponent component = optionComponents.get(optionName);
-            OptionType optionType = JsLintOption.getOptions().get(optionName).getType();
             String optionValue = jsLintState.options.get(optionName);
-            if (OptionType.BOOLEAN.equals(optionType)) {
-                JCheckBox checkBox = (JCheckBox) component;
-                if (!Boolean.valueOf(optionValue).equals(checkBox.isSelected())) {
-                    return true;
-                }
-            } else if (OptionType.NUMBER.equals(optionType)) {
-                JTextComponent text = (JTextComponent) component;
-                Integer integer = null;
-                Integer value = null;
-                try {
-                    integer = Integer.valueOf(text.getText());
-                    value = Integer.valueOf(optionValue);
-                } catch (NumberFormatException e) {
-                    // ignore
-                }
-                if (integer != null ? !integer.equals(value) : value != null) return true;
-            } else if (OptionType.STRING_ARRAY.equals(optionType)) {
-                JTextComponent text = (JTextComponent) component;
-                String[] splitedValue = text.getText().split(",");
-                String[] value = optionValue.split(",");
-                if (splitedValue.length != value.length) {
-                    return true;
-                }
-                Arrays.sort(value);
-                Arrays.sort(splitedValue);
-                for (int i = 0; i < splitedValue.length; i++) {
-                    if (!splitedValue[i].trim().equals(value[i])) {
+            switch (JsLintOption.getOptions().get(optionName).getType()){
+                case BOOLEAN:
+                    JCheckBox checkBox = (JCheckBox) component;
+                    if (!Boolean.valueOf(optionValue).equals(checkBox.isSelected())) {
                         return true;
                     }
-                }
+                    break;
+                case NUMBER:
+                    Integer integer = null;
+                    Integer value = null;
+                    try {
+                        integer = Integer.valueOf(((JTextComponent) component).getText());
+                        value = Integer.valueOf(optionValue);
+                    } catch (NumberFormatException e) {
+                        // ignore
+                    }
+                    if (integer != null ? !integer.equals(value) : value != null){
+                        return true;
+                    }
+                    break;
+                case STRING_ARRAY:
+                    String[] splitedValue = ((JTextComponent) component).getText().split(",");
+                    String[] currentValue = optionValue.split(",");
+                    if (splitedValue.length != currentValue.length) {
+                        return true;
+                    }
+                    Arrays.sort(currentValue);
+                    Arrays.sort(splitedValue);
+                    for (int i = 0; i < splitedValue.length; i++) {
+                        if (!splitedValue[i].trim().equals(currentValue[i])) {
+                            return true;
+                        }
+                    }
+                    break;
             }
         }
         return false;
@@ -62,41 +65,42 @@ public class ConfigurationForm {
 
     public JsLintState getJsLintState() {
         JsLintState jsLintState = new JsLintState();
-        jsLintState.options = new HashMap<String, String>();
 
         for (String optionName : optionComponents.keySet()) {
             JComponent component = optionComponents.get(optionName);
-            JsLintOption jsLintOption = JsLintOption.getOptions().get(optionName);
-            if (OptionType.BOOLEAN.equals(jsLintOption.getType())) {
-                JCheckBox checkBox = (JCheckBox) component;
-                jsLintState.options.put(optionName, String.valueOf(checkBox.isSelected()));
-            } else if (OptionType.NUMBER.equals(jsLintOption.getType())) {
-                JTextComponent text = (JTextComponent) component;
-                Integer integer = null;
-                try {
-                    integer = Integer.valueOf(text.getText());
-                } catch (NumberFormatException e) {
-                    // ignore
-                }
-                jsLintState.options.put(optionName, String.valueOf(integer));
-            } else if (OptionType.STRING_ARRAY.equals(jsLintOption.getType())) {
-                JTextComponent text = (JTextComponent) component;
-                String[] splitedValue = text.getText().split(",");
-                Arrays.sort(splitedValue);
-                StringBuilder result = null;
-                for (String aSplitedValue : splitedValue) {
-                    if (result == null) {
-                        result = new StringBuilder();
-                    } else {
-                        result.append(",");
+            switch (JsLintOption.getOptions().get(optionName).getType()){
+                case BOOLEAN:
+                    JCheckBox checkBox = (JCheckBox) component;
+                    jsLintState.options.put(optionName, String.valueOf(checkBox.isSelected()));
+                    break;
+                case NUMBER:
+                    JTextComponent text = (JTextComponent) component;
+                    Integer integer = null;
+                    try {
+                        integer = Integer.valueOf(text.getText());
+                    } catch (NumberFormatException e) {
+                        // ignore
                     }
+                    jsLintState.options.put(optionName, String.valueOf(integer));
+                    break;
+                case STRING_ARRAY:
+                    String[] splitedValue = ((JTextComponent) component).getText().split(",");
+                    Arrays.sort(splitedValue);
+                    StringBuilder result = null;
+                    for (String aSplitedValue : splitedValue) {
+                        if (result == null) {
+                            result = new StringBuilder();
+                        } else {
+                            result.append(",");
+                        }
 
-                    result.append(aSplitedValue.trim());
-                }
+                        result.append(aSplitedValue.trim());
+                        if(result != null){
+                            jsLintState.options.put(optionName, result.toString());
+                        }
 
-                if(result != null){
-                    jsLintState.options.put(optionName, result.toString());
-                }
+                    }
+                    break;
             }
         }
 
@@ -107,21 +111,24 @@ public class ConfigurationForm {
 
         for (String optionName : optionComponents.keySet()) {
             JComponent component = optionComponents.get(optionName);
-            JsLintOption jsLintOption = JsLintOption.getOptions().get(optionName);
             String value = jsLintState.options.get(optionName);
-            if (OptionType.BOOLEAN.equals(jsLintOption.getType())) {
-                JCheckBox checkBox = (JCheckBox) component;
-                checkBox.setSelected(Boolean.valueOf(value));
-            } else if (OptionType.NUMBER.equals(jsLintOption.getType())) {
-                Integer integer = null;
-                try {
-                    integer = Integer.valueOf(value);
-                } catch (NumberFormatException e) {
-                    // ignore
-                }
-                ((JFormattedTextField) component).setValue(integer);
-            } else if (OptionType.STRING_ARRAY.equals(jsLintOption.getType())) {
-                ((JTextArea) component).setText(value);
+            switch (JsLintOption.getOptions().get(optionName).getType()){
+                case BOOLEAN:
+                    JCheckBox checkBox = (JCheckBox) component;
+                    checkBox.setSelected(Boolean.valueOf(value));
+                    break;
+                case NUMBER:
+                    Integer integer = null;
+                    try {
+                        integer = Integer.valueOf(value);
+                    } catch (NumberFormatException e) {
+                        // ignore
+                    }
+                    ((JFormattedTextField) component).setValue(integer);
+                    break;
+                case STRING_ARRAY:
+                    ((JTextArea) component).setText(value);
+                    break;
             }
         }
     }
@@ -176,7 +183,7 @@ public class ConfigurationForm {
         return numberPanel;
     }
 
-    private JPanel createNumberPropertyField(JsLintOption<Integer> jsLintOption) {
+    private JPanel createNumberPropertyField(JsLintOption jsLintOption) {
         JPanel component = new JPanel();
         component.setLayout(new BoxLayout(component, BoxLayout.X_AXIS));
         component.add(new JLabel(jsLintOption.getName() + " : "));

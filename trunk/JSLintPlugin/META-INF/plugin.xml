@@ -18,12 +18,9 @@
 
   <actions>
     <!-- Add your actions here -->
-      <action id="JsLintPlugin.HelloAction" class="com.jetbrains.au.jslintplugin.HelloAction" text="Hello world action" description="say hello">
-          <add-to-group group-id="HelpMenu" anchor="first"/>
-      </action>
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <toolWindow id="JsLintValidator" anchor="bottom" factoryClass="com.jetbrains.au.jslintplugin.toolwindow.JsLintToolWindowFactory" />
   </extensions>
 </idea-plugin>
