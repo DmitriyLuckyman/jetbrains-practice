@@ -14,7 +14,12 @@
             <preferred-size width="-1" height="20"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <orientation value="0"/>
+        </properties>
+        <clientProperties>
+          <JToolBar.isRollover class="java.lang.Boolean" value="false"/>
+        </clientProperties>
         <border type="none"/>
         <children>
           <component id="48568" class="javax.swing.JButton" binding="runButton">
@@ -31,14 +36,19 @@
           </component>
         </children>
       </toolbar>
-      <component id="145c5" class="javax.swing.JList" binding="errorList">
+      <scrollpane id="a4353">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="145c5" class="javax.swing.JList" binding="errorList">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

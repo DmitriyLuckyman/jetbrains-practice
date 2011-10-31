@@ -1,26 +1,29 @@
 <idea-plugin version="2">
-  <name>Js Lint Validation Plugin</name>
-  <description>Validate js-code using JsLint library</description>
-  <version>1.0</version>
-  <vendor>YourCompany</vendor>
-  <idea-version since-build="8000"/>
+    <name>Js Lint Validation Plugin</name>
+    <description>Validate js-code using JsLint library</description>
+    <version>1.0</version>
+    <vendor>YourCompany</vendor>
+    <idea-version since-build="8000"/>
 
-  <application-components>
-    <!-- Add your application components here -->
-      <component>
-          <implementation-class>com.jetbrains.au.jslintplugin.JsLintValidatorComponent</implementation-class>
-      </component>
-  </application-components>
+    <application-components>
+        <!-- Add your application components here -->
+        <component>
+            <implementation-class>com.jetbrains.au.jslintplugin.JsLintValidatorComponent</implementation-class>
+        </component>
+    </application-components>
 
-  <project-components>
-    <!-- Add your project components here -->
-  </project-components>
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
 
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="JsLintValidator" anchor="bottom" factoryClass="com.jetbrains.au.jslintplugin.toolwindow.JsLintToolWindowFactory" />
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <externalAnnotator id="JsLintExternalAnnotator" language="JavaScript"
+                           implementationClass="com.jetbrains.au.jslintplugin.JsLintExternalAnnotator" order="FIRST"/>
+        <toolWindow id="JsLintValidator" anchor="bottom"
+                    factoryClass="com.jetbrains.au.jslintplugin.toolwindow.JsLintToolWindowFactory"/>
+    </extensions>
 </idea-plugin>
