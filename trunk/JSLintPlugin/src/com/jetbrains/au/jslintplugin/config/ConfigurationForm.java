@@ -1,5 +1,7 @@
 package com.jetbrains.au.jslintplugin.config;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -16,13 +18,13 @@ public class ConfigurationForm {
         return rootComponent;
     }
 
-    public boolean isModified(JsLintState jsLintState) {
-        if (jsLintState == null || jsLintState.options == null) {
+    public boolean isModified(@Nullable final Map<String, String> options) {
+        if (options == null) {
             return true;
         }
-        for (String optionName : jsLintState.options.keySet()) {
+        for (String optionName : optionComponents.keySet()) {
             JComponent component = optionComponents.get(optionName);
-            String optionValue = jsLintState.options.get(optionName);
+            @Nullable String optionValue = options.get(optionName);
             switch (JsLintOption.getOptions().get(optionName).getType()){
                 case BOOLEAN:
                     JCheckBox checkBox = (JCheckBox) component;
@@ -35,20 +37,32 @@ public class ConfigurationForm {
                     Integer value = null;
                     try {
                         integer = Integer.valueOf(((JTextComponent) component).getText());
-                        value = Integer.valueOf(optionValue);
+
                     } catch (NumberFormatException e) {
                         // ignore
                     }
+
+                    try
+                    {
+                        value = Integer.valueOf(optionValue);
+                    } catch (NumberFormatException e){
+                        //ignore
+                    }
+
                     if (integer != null ? !integer.equals(value) : value != null){
                         return true;
                     }
                     break;
+
                 case STRING_ARRAY:
-                    String[] splitedValue = ((JTextComponent) component).getText().split(",");
-                    String[] currentValue = optionValue.split(",");
+                    String text = ((JTextComponent) component).getText();
+                    String[] splitedValue = text == null ? new String[]{} : text.split(",");
+                    String[] currentValue = optionValue == null ? new String[]{} : optionValue.split(",");
+
                     if (splitedValue.length != currentValue.length) {
                         return true;
                     }
+
                     Arrays.sort(currentValue);
                     Arrays.sort(splitedValue);
                     for (int i = 0; i < splitedValue.length; i++) {
@@ -107,11 +121,10 @@ public class ConfigurationForm {
         return jsLintState;
     }
 
-    public void setJsLintState(JsLintState jsLintState) {
-
+    public void setJsLintState(@NotNull final Map<String, String> options) {
         for (String optionName : optionComponents.keySet()) {
             JComponent component = optionComponents.get(optionName);
-            String value = jsLintState.options.get(optionName);
+            String value = options.get(optionName);
             switch (JsLintOption.getOptions().get(optionName).getType()){
                 case BOOLEAN:
                     JCheckBox checkBox = (JCheckBox) component;
@@ -183,7 +196,7 @@ public class ConfigurationForm {
         return numberPanel;
     }
 
-    private JPanel createNumberPropertyField(JsLintOption jsLintOption) {
+    private JPanel createNumberPropertyField(@NotNull final JsLintOption jsLintOption) {
         JPanel component = new JPanel();
         component.setLayout(new BoxLayout(component, BoxLayout.X_AXIS));
         component.add(new JLabel(jsLintOption.getName() + " : "));

@@ -1,5 +1,7 @@
 package com.jetbrains.au.jslintplugin.js;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mozilla.javascript.NativeObject;
 
 /**
@@ -126,6 +128,7 @@ public class ErrorBean {
         this.d = d;
     }
 
+    @NotNull
     public static ErrorBean create(NativeObject error) {
         ErrorBean bean = new ErrorBean();
         if(error != null){
@@ -150,7 +153,8 @@ public class ErrorBean {
         return bean;
     }
 
-    private static String getNullableStringValue(Object object){
+    @Nullable
+    private static String getNullableStringValue(@Nullable final Object object){
         return object == null ? null : String.valueOf(object);
     }
 }

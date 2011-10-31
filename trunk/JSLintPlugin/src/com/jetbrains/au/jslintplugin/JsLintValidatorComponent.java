@@ -8,11 +8,17 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.au.jslintplugin.config.ConfigurationForm;
+import com.jetbrains.au.jslintplugin.config.JsLintOption;
 import com.jetbrains.au.jslintplugin.config.JsLintState;
+import com.jetbrains.au.jslintplugin.config.Option;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: luckyman
@@ -52,14 +58,14 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
     }
 
     public JComponent createComponent() {
-       // if(form == null){
+        if(form == null){
             form = new ConfigurationForm();
-       // }
+        }
         return form.getRootComponent();
     }
 
     public boolean isModified() {
-        return form != null && form.isModified(state);
+        return form != null && form.isModified(Collections.unmodifiableMap(state.options));
     }
 
     public void apply() throws ConfigurationException {
@@ -70,17 +76,29 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
 
     public void reset() {
         if(form != null){
-            this.form.setJsLintState(this.state);
+            this.form.setJsLintState(Collections.unmodifiableMap(this.state.options));
         }
     }
 
     public void disposeUIResources() {}
 
+    @NotNull
+    public List<Option> getJsLintOptions(){
+        List<Option> optionList = new ArrayList<Option>();
+        for (String optionName : state.options.keySet()) {
+            optionList.add(new Option(JsLintOption.getOptions().get(optionName), state.options.get(optionName)));
+        }
+        return optionList;
+    }
+
+    @NotNull
     public JsLintState getState() {
         return state;
     }
 
-    public void loadState(@NotNull JsLintState state) {
-        this.state = state;
+    public void loadState(@Nullable final JsLintState state) {
+        if(state != null){
+            this.state = state;
+        }
     }
 }
