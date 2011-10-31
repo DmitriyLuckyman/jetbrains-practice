@@ -1,19 +1,26 @@
 package com.intellij.puzzlers.ui;
 
-import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.extensions.PluginId;
+import com.intellij.openapi.fileChooser.FileChooserFactory;
+import com.intellij.openapi.fileChooser.FileSaverDescriptor;
+import com.intellij.openapi.fileChooser.FileSaverDialog;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.testFramework.LightVirtualFile;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.util.Consumer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class JavaPuzzlersGame {
     List<JRadioButton> answers = new ArrayList<JRadioButton>();
@@ -46,11 +53,11 @@ public class JavaPuzzlersGame {
     }
 
     private boolean checkAnswer() {
-        if (answers.get(rightAnswer-1).isSelected()) {
+        if (answers.get(rightAnswer - 1).isSelected()) {
             isRight.setText("Your answer is right!");
             return true;
         } else {
-            isRight.setText("Right answer is #"+rightAnswer);
+            isRight.setText("Right answer is #" + rightAnswer);
             return false;
         }
     }
@@ -93,7 +100,7 @@ public class JavaPuzzlersGame {
         answers.add(answer3);
     }
 
-    public JavaPuzzlersGame(Project project) {
+    public JavaPuzzlersGame(final Project project) {
         this.project = project;
         puzzlerNumber = 1;
         initAnswers();
@@ -114,11 +121,28 @@ public class JavaPuzzlersGame {
         });
         runButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                LightVirtualFile file = new LightVirtualFile("Main", JavaFileType.INSTANCE, codeContent.getText());
-                FileEditorManager.getInstance(JavaPuzzlersGame.this.project).openFile(file, true);
+                final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save Main class to", "");
+                final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
+                                descriptor, project );
+                final VirtualFileWrapper fileWrapper = dialog.save(project.getProjectFile(), "Main.java");
+                if(fileWrapper != null){
+                    onFileToSaveChosen(fileWrapper);
+                }
+
             }
         });
         addPuzzler(puzzlerNumber);
+    }
+
+    private void onFileToSaveChosen(VirtualFileWrapper fileWrapper) {
+        final VirtualFile fileToSave = fileWrapper.getVirtualFile(true);
+        assert fileToSave != null;
+        try {
+            fileToSave.setBinaryContent(codeContent.getText().getBytes());
+            FileEditorManager.getInstance(project).openFile(fileToSave, true);
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public JPanel getMainPanel() {
