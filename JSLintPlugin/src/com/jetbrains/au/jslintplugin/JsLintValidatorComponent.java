@@ -24,7 +24,7 @@ import javax.swing.*;
         })
 public class JsLintValidatorComponent implements ApplicationComponent, Configurable, PersistentStateComponent<JsLintState> {
 
-    private JsLintState state;
+    private JsLintState state = new JsLintState();
     private ConfigurationForm form;
 
     public JsLintValidatorComponent() {}
@@ -80,7 +80,7 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
         return state;
     }
 
-    public void loadState(JsLintState state) {
+    public void loadState(@NotNull JsLintState state) {
         this.state = state;
     }
 }
