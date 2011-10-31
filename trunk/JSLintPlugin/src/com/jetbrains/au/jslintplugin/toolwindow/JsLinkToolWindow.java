@@ -56,7 +56,7 @@ public class JsLinkToolWindow {
                     JComponent compo = selectedEditors[0].getComponent();
                     DataContext context = DataManager.getInstance().getDataContext(compo);
                     VirtualFile file = DataKeys.VIRTUAL_FILE.getData(context);
-                    if (file == null || !file.exists() || StdFileTypes.JS.equals(file.getFileType())) {
+                    if (file == null || !file.exists() || !StdFileTypes.JS.equals(file.getFileType())) {
                         Messages.showErrorDialog("Open JS file in editor", "Error Message");
                         return;
                     }
