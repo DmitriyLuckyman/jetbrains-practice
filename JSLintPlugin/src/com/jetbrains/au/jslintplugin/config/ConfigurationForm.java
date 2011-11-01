@@ -76,16 +76,15 @@ public class ConfigurationForm {
         return false;
     }
 
-
-    public JsLintState getJsLintState() {
-        JsLintState jsLintState = new JsLintState();
-
+    @NotNull
+    public Map<String, String> getJsLintOptions() {
+        Map<String, String> options = new HashMap<String, String>();
         for (String optionName : optionComponents.keySet()) {
             JComponent component = optionComponents.get(optionName);
             switch (JsLintOption.getOptions().get(optionName).getType()){
                 case BOOLEAN:
                     JCheckBox checkBox = (JCheckBox) component;
-                    jsLintState.options.put(optionName, String.valueOf(checkBox.isSelected()));
+                    options.put(optionName, String.valueOf(checkBox.isSelected()));
                     break;
                 case NUMBER:
                     JTextComponent text = (JTextComponent) component;
@@ -95,7 +94,7 @@ public class ConfigurationForm {
                     } catch (NumberFormatException e) {
                         // ignore
                     }
-                    jsLintState.options.put(optionName, String.valueOf(integer));
+                    options.put(optionName, String.valueOf(integer));
                     break;
                 case STRING_ARRAY:
                     String[] splitedValue = ((JTextComponent) component).getText().split(",");
@@ -110,7 +109,7 @@ public class ConfigurationForm {
 
                         result.append(aSplitedValue.trim());
                         if(result != null){
-                            jsLintState.options.put(optionName, result.toString());
+                            options.put(optionName, result.toString());
                         }
 
                     }
@@ -118,7 +117,7 @@ public class ConfigurationForm {
             }
         }
 
-        return jsLintState;
+        return options;
     }
 
     public void setJsLintState(@NotNull final Map<String, String> options) {

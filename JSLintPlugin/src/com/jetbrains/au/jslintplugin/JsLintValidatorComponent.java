@@ -70,7 +70,8 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
 
     public void apply() throws ConfigurationException {
         if(form != null){
-            this.state = form.getJsLintState();
+            this.state = new JsLintState();
+            this.state.options = form.getJsLintOptions();
         }
     }
 
