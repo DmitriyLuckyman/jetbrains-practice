@@ -2,6 +2,7 @@ package com.jetbrains.au.jslintplugin.config;
 
 import com.intellij.util.xmlb.annotations.MapAnnotation;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,9 @@ import java.util.Map;
  * Time: 15:48
  */
 
-public class JsLintState {
+public final class JsLintState {
 
     @MapAnnotation(surroundKeyWithTag = true, surroundValueWithTag = true,
             surroundWithTag = true, entryTagName = "JsLintOption")
-    public HashMap<String, String> options = new HashMap<String, String>();
-
+    public Map<String, String> options = new HashMap<String, String>();
 }
