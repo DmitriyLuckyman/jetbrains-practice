@@ -10,7 +10,6 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
-import com.intellij.util.Consumer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,9 +23,14 @@ import java.util.Scanner;
 
 public class JavaPuzzlersGame {
     List<JRadioButton> answers = new ArrayList<JRadioButton>();
-    private final Project project;
+    private Project project;
     private JButton runButton;
     private JPanel mainPanel;
+
+    public int getPuzzlerNumber() {
+        return puzzlerNumber;
+    }
+
     private JTextArea codeContent;
     private JButton nextPuzzlerButton;
     private JLabel javaCodeLabel;
@@ -37,6 +41,14 @@ public class JavaPuzzlersGame {
     private JButton answerButton;
     private int puzzlerNumber;
     private int rightAnswer;
+
+    public JButton getAnswerButton() {
+        return answerButton;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     private void parseAnswers(int number) {
         try {
@@ -52,7 +64,7 @@ public class JavaPuzzlersGame {
 
     }
 
-    private boolean checkAnswer() {
+    public boolean checkAnswer() {
         if (answers.get(rightAnswer - 1).isSelected()) {
             isRight.setText("Your answer is right!");
             return true;
@@ -100,8 +112,7 @@ public class JavaPuzzlersGame {
         answers.add(answer3);
     }
 
-    public JavaPuzzlersGame(final Project project) {
-        this.project = project;
+    public JavaPuzzlersGame() {
         puzzlerNumber = 1;
         initAnswers();
         answerButton.addActionListener(new ActionListener() {
@@ -123,9 +134,9 @@ public class JavaPuzzlersGame {
             public void actionPerformed(ActionEvent e) {
                 final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save Main class to", "");
                 final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
-                                descriptor, project );
+                        descriptor, project);
                 final VirtualFileWrapper fileWrapper = dialog.save(project.getProjectFile(), "Main.java");
-                if(fileWrapper != null){
+                if (fileWrapper != null) {
                     onFileToSaveChosen(fileWrapper);
                 }
 
@@ -133,6 +144,7 @@ public class JavaPuzzlersGame {
         });
         addPuzzler(puzzlerNumber);
     }
+
 
     private void onFileToSaveChosen(VirtualFileWrapper fileWrapper) {
         final VirtualFile fileToSave = fileWrapper.getVirtualFile(true);
