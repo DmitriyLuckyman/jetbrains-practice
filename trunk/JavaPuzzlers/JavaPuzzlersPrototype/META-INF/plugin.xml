@@ -11,7 +11,7 @@
 
     <project-components>
         <component>
-            <implementation-class>com.intellij.puzzlers.ui.JavaPuzzlersComponent</implementation-class>
+            <implementation-class>com.intellij.puzzlers.JavaPuzzlersComponent</implementation-class>
             <option name="workspace" value="true"/>
         </component>
     </project-components>

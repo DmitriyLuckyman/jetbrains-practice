@@ -5,7 +5,9 @@
       <root url="file://$PROJECT_DIR$/libs" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$USER_HOME$/sqljet-1.0.7/src" />
+    </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/libs" recursive="false" />
   </library>
 </component>
