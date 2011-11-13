@@ -1,5 +1,6 @@
 package com.intellij.puzzlers.ui;
 
+import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.extensions.PluginId;
@@ -10,6 +11,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.ui.EditorTextField;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,7 +33,7 @@ public class JavaPuzzlersGame {
         return puzzlerNumber;
     }
 
-    private JTextArea codeContent;
+    private EditorTextField codeContent;
     private JButton nextPuzzlerButton;
     private JLabel javaCodeLabel;
     private JRadioButton answer1;
@@ -78,13 +80,15 @@ public class JavaPuzzlersGame {
         try {
             File puzzlerTemplateFile = getPuzzleFile(number);
             Scanner sc = new Scanner(puzzlerTemplateFile);
-            codeContent.setText("");
+            StringBuilder sb = new StringBuilder();
             while (sc.hasNext()) {
-                codeContent.append(sc.nextLine());
+                sb.append(sc.nextLine());
                 if (sc.hasNext()) {
-                    codeContent.append("\n");
+                    sb.append("\n");
                 }
             }
+            codeContent = new EditorTextField("", project, JavaFileType.INSTANCE);
+            codeContent.setText(sb.toString());
             javaCodeLabel.setText("Puzzler number #" + number);
             parseAnswers(number);
         } catch (FileNotFoundException e) {
@@ -135,7 +139,7 @@ public class JavaPuzzlersGame {
                 final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save Main class to", "");
                 final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
                         descriptor, project);
-                final VirtualFileWrapper fileWrapper = dialog.save(project.getProjectFile(), "Main.java");
+                final VirtualFileWrapper fileWrapper = dialog.save(project.getBaseDir(), "Main.java");
                 if (fileWrapper != null) {
                     onFileToSaveChosen(fileWrapper);
                 }
@@ -160,5 +164,4 @@ public class JavaPuzzlersGame {
     public JPanel getMainPanel() {
         return mainPanel;
     }
-
 }
