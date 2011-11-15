@@ -30,7 +30,12 @@ public class GameController implements Disposable {
     private SqlJetDb db;
 
     public GameController(Project project) {
+        if (project == null) {
+            throw new RuntimeException("Project is null!");
+        }
         javaPuzzlersGame.setProject(project);
+        javaPuzzlersGame.addPuzzler(javaPuzzlersGame.getPuzzlerNumber());
+
         javaPuzzlersGame.getMainPanel().setVisible(false);
         login.addOKActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

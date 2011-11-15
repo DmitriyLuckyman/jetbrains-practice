@@ -1,13 +1,15 @@
 package com.intellij.puzzlers.ui;
 
-import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileChooser.FileSaverDialog;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
@@ -41,6 +43,7 @@ public class JavaPuzzlersGame {
     private JRadioButton answer3;
     private JLabel isRight;
     private JButton answerButton;
+    private JPanel codeWrapPanel;
     private int puzzlerNumber;
     private int rightAnswer;
 
@@ -76,25 +79,46 @@ public class JavaPuzzlersGame {
         }
     }
 
-    private void addPuzzler(int number) {
-        try {
-            File puzzlerTemplateFile = getPuzzleFile(number);
-            Scanner sc = new Scanner(puzzlerTemplateFile);
-            StringBuilder sb = new StringBuilder();
-            while (sc.hasNext()) {
-                sb.append(sc.nextLine());
-                if (sc.hasNext()) {
-                    sb.append("\n");
+    public void addPuzzler(final int number) {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    File puzzlerTemplateFile = getPuzzleFile(number);
+                    Scanner sc = new Scanner(puzzlerTemplateFile);
+                    StringBuilder sb = new StringBuilder();
+                    while (sc.hasNext()) {
+                        sb.append(sc.nextLine());
+                        if (sc.hasNext()) {
+                            sb.append("\n");
+                        }
+                    }
+                    if (project == null) {
+                        throw new RuntimeException("project is null!");
+                    }
+                    codeContent = new EditorTextField(sb.toString(), project, StdFileTypes.JAVA) {
+                        protected EditorEx createEditor() {
+                            EditorEx editor = super.createEditor();
+                            editor.setVerticalScrollbarVisible(true);
+                            return editor;
+                        }
+
+                        @Override
+                        protected boolean isOneLineMode() {
+                            return false;
+                        }
+                    };
+                    codeWrapPanel.add(codeContent);
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    javaCodeLabel.setText("Puzzler number #" + number);
+                    parseAnswers(number);
+                } catch (FileNotFoundException e) {
+                    runButton.setEnabled(false);
+                    e.printStackTrace();
                 }
+
             }
-            codeContent = new EditorTextField("", project, JavaFileType.INSTANCE);
-            codeContent.setText(sb.toString());
-            javaCodeLabel.setText("Puzzler number #" + number);
-            parseAnswers(number);
-        } catch (FileNotFoundException e) {
-            runButton.setEnabled(false);
-            e.printStackTrace();
-        }
+        });
     }
 
     private File getAnswersFile(int number) {
@@ -146,7 +170,6 @@ public class JavaPuzzlersGame {
 
             }
         });
-        addPuzzler(puzzlerNumber);
     }
 
 
