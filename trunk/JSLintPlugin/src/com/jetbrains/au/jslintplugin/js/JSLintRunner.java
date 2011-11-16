@@ -1,6 +1,7 @@
 package com.jetbrains.au.jslintplugin.js;
 
 import com.jetbrains.au.jslintplugin.config.Option;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

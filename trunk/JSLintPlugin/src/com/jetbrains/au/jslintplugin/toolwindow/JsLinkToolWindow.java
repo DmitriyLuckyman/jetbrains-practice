@@ -12,7 +12,7 @@ import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.au.jslintplugin.JsLintValidatorComponent;
-import com.jetbrains.au.jslintplugin.js.ErrorBean;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
 import com.jetbrains.au.jslintplugin.js.JSLintRunner;
 import com.jetbrains.au.jslintplugin.js.JSLintRunnerManager;
 import org.jetbrains.annotations.NotNull;

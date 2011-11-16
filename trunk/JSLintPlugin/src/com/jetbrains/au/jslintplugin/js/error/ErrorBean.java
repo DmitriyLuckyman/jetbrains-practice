@@ -1,4 +1,4 @@
-package com.jetbrains.au.jslintplugin.js;
+package com.jetbrains.au.jslintplugin.js.error;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +15,7 @@ public class ErrorBean {
         return new StringBuilder()
                 .append("line=").append(line)
                 .append(", character=").append(character)
-                .append(", reason='").append(reason)
+                .append(", reason=' ").append(reason).append(" '")
                 .append(", evidence='").append(evidence).toString();
     }
 
