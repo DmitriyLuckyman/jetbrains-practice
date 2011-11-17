@@ -227,4 +227,17 @@ public class ConfigurationForm {
         optionComponents.put(jsLintOption.getName(), textArea);
         return component;
     }
+
+    /**
+     * Send null if need to clear highlighting.
+     * @param relatedOption option to highlight on configuration form
+     */
+    public void highlightOption(@Nullable final String relatedOption) {
+        for (String option : this.optionComponents.keySet()) {
+            final JComponent jComponent = this.optionComponents.get(option);
+            final Font font = jComponent.getFont().deriveFont(option.equals(relatedOption) ? Font.BOLD : Font.PLAIN);
+            jComponent.setFont(font);
+            jComponent.revalidate();
+        }
+    }
 }

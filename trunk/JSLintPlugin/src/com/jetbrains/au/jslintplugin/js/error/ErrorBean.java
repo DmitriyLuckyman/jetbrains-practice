@@ -1,5 +1,6 @@
 package com.jetbrains.au.jslintplugin.js.error;
 
+import com.jetbrains.au.jslintplugin.js.error.processor.ErrorProcessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mozilla.javascript.NativeObject;
@@ -10,6 +11,11 @@ import org.mozilla.javascript.NativeObject;
  * Time: 15:34
  */
 public class ErrorBean {
+
+    public ErrorProcessor getProcessor(){
+        return ErrorBeanHelper.getProcessor(this);
+    }
+
     @Override
     public String toString() {
         return new StringBuilder()

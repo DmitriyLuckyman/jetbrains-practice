@@ -1,9 +1,14 @@
-package com.jetbrains.au.jslintplugin.js.error;
+package com.jetbrains.au.jslintplugin.js.error.processor;
 
+import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.openapi.util.TextRange;
-import com.jetbrains.au.jslintplugin.js.error.processor.ErrorProcessor;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
+import com.jetbrains.au.jslintplugin.js.error.processor.fix.OpenConfigurationFix;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Dmitriy Bandurin
@@ -32,5 +37,12 @@ public class DefaultProcessor implements ErrorProcessor {
     @NotNull
     public String getMessage(@NotNull ErrorBean errorBean) {
         return errorBean.toString();
+    }
+
+    @NotNull
+    public List<IntentionAction> getFixes(ErrorBean error) {
+        List<IntentionAction> fixes  = new ArrayList<IntentionAction>();
+        fixes.add(new OpenConfigurationFix(error));
+        return fixes;
     }
 }

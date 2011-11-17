@@ -78,6 +78,7 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
     public void reset() {
         if(form != null){
             this.form.setJsLintState(Collections.unmodifiableMap(this.state.options));
+            this.form.highlightOption(null);
         }
     }
 
@@ -100,6 +101,12 @@ public class JsLintValidatorComponent implements ApplicationComponent, Configura
     public void loadState(@Nullable final JsLintState state) {
         if(state != null){
             this.state = state;
+        }
+    }
+
+    public void setOptionToHiglight(@NotNull final String relatedOption) {
+        if(this.state.options.containsKey(relatedOption)){
+            this.form.highlightOption(relatedOption);
         }
     }
 }
