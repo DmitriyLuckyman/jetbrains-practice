@@ -1,9 +1,6 @@
 package com.jetbrains.au.jslintplugin.js.error;
 
-import com.jetbrains.au.jslintplugin.js.error.processor.ErrorProcessor;
-import com.jetbrains.au.jslintplugin.js.error.processor.ExpectedInsteadProblem;
-import com.jetbrains.au.jslintplugin.js.error.processor.MissingSpaceProblem;
-import com.jetbrains.au.jslintplugin.js.error.processor.VariableUsedProblem;
+import com.jetbrains.au.jslintplugin.js.error.processor.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

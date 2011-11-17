@@ -1,5 +1,8 @@
 package com.jetbrains.au.jslintplugin;
 
+import com.intellij.codeInsight.intention.IntentionAction;
+import com.intellij.codeInspection.ProblemHighlightType;
+import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;
 import com.intellij.openapi.application.Application;
@@ -8,7 +11,6 @@ import com.intellij.psi.PsiFile;
 import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
 import com.jetbrains.au.jslintplugin.js.JSLintRunner;
 import com.jetbrains.au.jslintplugin.js.JSLintRunnerManager;
-import com.jetbrains.au.jslintplugin.js.error.ErrorBeanHelper;
 import com.jetbrains.au.jslintplugin.js.error.processor.ErrorProcessor;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,10 +39,17 @@ public class JsLintExternalAnnotator implements ExternalAnnotator {
                         currentOffset = text.indexOf("\n", currentOffset) + 1;
                         currentLine++;
                     }
-                    final ErrorProcessor processor = ErrorBeanHelper.getProcessor(errorBean);
-                    annotationHolder.createWarningAnnotation(
+                    final ErrorProcessor processor = errorBean.getProcessor();
+                    final Annotation annotation = annotationHolder.createWarningAnnotation(
                             processor.getSelectionRange(text, currentOffset, errorBean),
                             processor.getMessage(errorBean));
+
+                    annotation.setHighlightType(ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
+                    for (IntentionAction intentionAction : processor.getFixes(errorBean)) {
+                        annotation.registerFix(intentionAction);
+                        annotation.setNeedsUpdateOnTyping(true);
+                    }
+
                 }
             }
         } catch (IOException e) {
