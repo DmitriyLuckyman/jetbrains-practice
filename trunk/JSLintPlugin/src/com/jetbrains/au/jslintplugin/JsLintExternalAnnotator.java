@@ -1,7 +1,6 @@
 package com.jetbrains.au.jslintplugin;
 
 import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;
@@ -33,7 +32,7 @@ public class JsLintExternalAnnotator implements ExternalAnnotator {
             int currentLine = 1;
             int currentOffset = 0;
             for (final ErrorBean errorBean : errorBeans) {
-                if (errorBean.getEvidence() != null) {
+                if (errorBean.getLine() != 0) {
                     final int line = errorBean.getLine();
                     while (currentLine < line) {
                         currentOffset = text.indexOf("\n", currentOffset) + 1;
@@ -44,7 +43,6 @@ public class JsLintExternalAnnotator implements ExternalAnnotator {
                             processor.getSelectionRange(text, currentOffset, errorBean),
                             processor.getMessage(errorBean));
 
-                    annotation.setHighlightType(ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
                     for (IntentionAction intentionAction : processor.getFixes(errorBean)) {
                         annotation.registerFix(intentionAction);
                         annotation.setNeedsUpdateOnTyping(true);

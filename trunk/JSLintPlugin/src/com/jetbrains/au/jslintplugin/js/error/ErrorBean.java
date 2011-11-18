@@ -18,11 +18,13 @@ public class ErrorBean {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("line=").append(line)
-                .append(", character=").append(character)
-                .append(", reason=' ").append(reason).append(" '")
-                .append(", evidence='").append(evidence).toString();
+        final StringBuilder builder = new StringBuilder();
+        builder.append( reason )
+                .append("(").append(line).append(":").append(character).append(")");
+                if(evidence != null){
+                    builder.append("\n evidence='").append(evidence).append("'");
+                }
+        return builder.toString();
     }
 
     /**

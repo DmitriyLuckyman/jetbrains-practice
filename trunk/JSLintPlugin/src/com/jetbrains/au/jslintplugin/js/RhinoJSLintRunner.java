@@ -34,7 +34,10 @@ public class RhinoJSLintRunner implements JSLintRunner {
             Boolean noErrors = (Boolean) Context.jsToJava(status, Boolean.class);
             if (!noErrors) {
                 for (Object error : ((NativeArray) jsLint.get("errors", scope)).toArray()) {
-                    result.add(ErrorBean.create((NativeObject) error));
+                    final ErrorBean e = ErrorBean.create((NativeObject) error);
+                    if(e.getReason() != null){
+                        result.add(e);
+                    }
                 }
             }
         } finally {
