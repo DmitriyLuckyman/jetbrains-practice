@@ -19,12 +19,18 @@ public class DefaultProcessor implements ErrorProcessor {
     @NotNull
     public TextRange getSelectionRange(@NotNull String text, int offset, @NotNull ErrorBean error) {
         final TextRange textRange;
-        final int startIndex = text.indexOf(error.getEvidence(), offset);
-        if (startIndex != -1) {
-            final int endOffset = startIndex + error.getEvidence().length();
-            textRange = new TextRange(startIndex, endOffset);
+        if(error.getEvidence() != null){
+            final int startIndex = text.indexOf(error.getEvidence(), offset);
+            if (startIndex != -1) {
+                final int endOffset = startIndex + error.getEvidence().length();
+                textRange = new TextRange(startIndex, endOffset);
+            } else {
+                textRange = new TextRange(offset, offset);
+            }
         } else {
-            textRange = new TextRange(offset, offset);
+            int startIndex = offset + error.getCharacter() - 1;
+            int endIndex = offset + error.getCharacter();
+            textRange = new TextRange(startIndex, endIndex);
         }
         return textRange;
     }
