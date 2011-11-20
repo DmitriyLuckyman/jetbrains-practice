@@ -171,7 +171,25 @@ public class JavaPuzzlersGame {
                 final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save Main class to", "");
                 final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
                         descriptor, project);
-                final VirtualFileWrapper fileWrapper = dialog.save(project.getBaseDir(), resolveClassName() + ".java");
+                VirtualFile base = project.getBaseDir();
+                try {
+                    VirtualFile vf = base.findFileByRelativePath("src" + File.separator + "puzzlers");
+                    if (vf == null || !vf.isDirectory()) {
+                        VirtualFile sourceFolder = base.findChild("src");
+                        if (sourceFolder == null) {
+                            sourceFolder = vf.createChildDirectory(this, "src");
+                        }
+                        VirtualFile puzzlersFolder = sourceFolder.findChild("puzzlers");
+                        if (puzzlersFolder == null) {
+                            puzzlersFolder = sourceFolder.createChildDirectory(this, "puzzlers");
+                        }
+                        vf = puzzlersFolder;
+                    }
+                    base = vf;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                final VirtualFileWrapper fileWrapper = dialog.save(base, resolveClassName() + ".java");
                 if (fileWrapper != null) {
                     onFileToSaveChosen(fileWrapper);
                 }
