@@ -35,15 +35,12 @@ import java.util.Scanner;
 
 public class JavaPuzzlersGame {
     List<JRadioButton> answers = new ArrayList<JRadioButton>();
+    public final int maxQuestion = 2;
     private Project project;
     private JButton runButton;
     private JPanel mainPanel;
-
-    public int getPuzzlerNumber() {
-        return puzzlerNumber;
-    }
-
     private EditorTextField codeContent;
+
     private JButton nextPuzzlerButton;
     private JLabel javaCodeLabel;
     private JRadioButton answer1;
@@ -52,11 +49,34 @@ public class JavaPuzzlersGame {
     private JLabel isRight;
     private JButton answerButton;
     private JPanel codeWrapPanel;
+
+    private JButton previousPuzzlerButton;
     private int puzzlerNumber;
     private int rightAnswer;
 
+    public JButton getRunButton() {
+        return runButton;
+    }
+
+    public int getPuzzlerNumber() {
+        return puzzlerNumber;
+    }
+
+    public void setPuzzlerNumber(int number) {
+        puzzlerNumber = number;
+    }
+
     public JButton getAnswerButton() {
         return answerButton;
+    }
+
+
+    public JButton getPreviousPuzzlerButton() {
+        return previousPuzzlerButton;
+    }
+
+    public JButton getNextPuzzlerButton() {
+        return nextPuzzlerButton;
     }
 
     public void setProject(Project project) {
@@ -149,21 +169,13 @@ public class JavaPuzzlersGame {
     }
 
     public JavaPuzzlersGame() {
-        puzzlerNumber = 1;
-        initAnswers();
+        //puzzlerNumber = 1;
+        //initAnswers();
         answerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 checkAnswer();
                 runButton.setEnabled(true);
                 answerButton.setEnabled(false);
-            }
-        });
-        nextPuzzlerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                answerButton.setEnabled(true);
-                runButton.setEnabled(false);
-                puzzlerNumber++;
-                addPuzzler(puzzlerNumber);
             }
         });
         runButton.addActionListener(new ActionListener() {
