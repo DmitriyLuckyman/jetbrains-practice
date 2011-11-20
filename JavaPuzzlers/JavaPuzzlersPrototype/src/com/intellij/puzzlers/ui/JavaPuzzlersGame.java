@@ -1,7 +1,10 @@
 package com.intellij.puzzlers.ui;
 
+import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.FileASTNode;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.extensions.PluginId;
@@ -13,7 +16,12 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.psi.JavaTokenType;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.impl.source.tree.java.ClassElement;
 import com.intellij.ui.EditorTextField;
+import com.intellij.util.LocalTimeCounter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -163,7 +171,7 @@ public class JavaPuzzlersGame {
                 final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save Main class to", "");
                 final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
                         descriptor, project);
-                final VirtualFileWrapper fileWrapper = dialog.save(project.getBaseDir(), "Main.java");
+                final VirtualFileWrapper fileWrapper = dialog.save(project.getBaseDir(), resolveClassName() + ".java");
                 if (fileWrapper != null) {
                     onFileToSaveChosen(fileWrapper);
                 }
@@ -182,6 +190,25 @@ public class JavaPuzzlersGame {
         } catch (IOException e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    public String resolveClassName() {
+        final PsiFile psiFile = PsiFileFactory.getInstance(project).createFileFromText(
+                "Main.java",
+                JavaFileType.INSTANCE,
+                codeContent.getText(),
+                LocalTimeCounter.currentTime(),
+                true);
+        FileASTNode node = psiFile.getNode();
+        ASTNode classNode = node.findChildByType(ClassElement.CLASS);
+        if (classNode == null) {
+            return "Main";
+        }
+        ASTNode classNameNode = classNode.findChildByType(JavaTokenType.IDENTIFIER);
+        if (classNameNode == null) {
+            return "Main";
+        }
+        return classNameNode.getText();
     }
 
     public JPanel getMainPanel() {
