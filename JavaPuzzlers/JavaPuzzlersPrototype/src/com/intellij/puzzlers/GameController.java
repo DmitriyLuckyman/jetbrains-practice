@@ -29,13 +29,32 @@ public class GameController implements Disposable {
 
     private SqlJetDb db;
 
+    private boolean isAnswered(int number) throws SqlJetException {
+        db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
+        try {
+            ISqlJetTable table = db.getTable("answers");
+            ISqlJetCursor cursor = table.lookup("login_question", login.getLogin(), number);
+            return !cursor.eof();
+        } finally {
+            db.commit();
+        }
+    }
+
+    private void checkButtonsDuringQuestion(int number) throws SqlJetException {
+        if (isAnswered(number)) {
+            javaPuzzlersGame.getAnswerButton().setEnabled(false);
+            javaPuzzlersGame.getRunButton().setEnabled(true);
+        } else {
+            javaPuzzlersGame.getAnswerButton().setEnabled(true);
+            javaPuzzlersGame.getRunButton().setEnabled(false);
+        }
+    }
+
     public GameController(Project project) {
         if (project == null) {
             throw new RuntimeException("Project is null!");
         }
         javaPuzzlersGame.setProject(project);
-        javaPuzzlersGame.addPuzzler(javaPuzzlersGame.getPuzzlerNumber());
-
         javaPuzzlersGame.getMainPanel().setVisible(false);
         login.addOKActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,6 +64,9 @@ public class GameController implements Disposable {
                     } else {
                         mainPanel.remove(login.getMainPanel());
                         javaPuzzlersGame.getMainPanel().setVisible(true);
+                        javaPuzzlersGame.setPuzzlerNumber(1);
+                        javaPuzzlersGame.addPuzzler(1);
+                        checkButtonsDuringQuestion(1);
                     }
                 } catch (SqlJetException e1) {
                     e1.printStackTrace(System.err);
@@ -57,6 +79,34 @@ public class GameController implements Disposable {
                     register(login.getLogin(), login.getPasswordHash());
                 } catch (SqlJetException e1) {
                     e1.printStackTrace(System.err);
+                }
+            }
+        });
+        javaPuzzlersGame.getNextPuzzlerButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (javaPuzzlersGame.getPuzzlerNumber() < javaPuzzlersGame.maxQuestion)
+                        javaPuzzlersGame.setPuzzlerNumber(javaPuzzlersGame.getPuzzlerNumber() + 1);
+                    else
+                        javaPuzzlersGame.setPuzzlerNumber(1);
+                    javaPuzzlersGame.addPuzzler(javaPuzzlersGame.getPuzzlerNumber());
+                    checkButtonsDuringQuestion(javaPuzzlersGame.getPuzzlerNumber());
+                } catch (SqlJetException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        javaPuzzlersGame.getPreviousPuzzlerButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (javaPuzzlersGame.getPuzzlerNumber() > 1)
+                        javaPuzzlersGame.setPuzzlerNumber(javaPuzzlersGame.getPuzzlerNumber() - 1);
+                    else
+                        javaPuzzlersGame.setPuzzlerNumber(javaPuzzlersGame.maxQuestion);
+                    javaPuzzlersGame.addPuzzler(javaPuzzlersGame.getPuzzlerNumber());
+                    checkButtonsDuringQuestion(javaPuzzlersGame.getPuzzlerNumber());
+                } catch (SqlJetException e1) {
+                    e1.printStackTrace();
                 }
             }
         });
@@ -145,11 +195,13 @@ public class GameController implements Disposable {
         final String createUserTableQuery = "CREATE TABLE users (login TEXT NOT NULL PRIMARY KEY , password TEXT NOT NULL)";
         final String loginPasswordIndexQuery = "CREATE INDEX login_password ON users(login,password)";
         final String createAnswersTableQuery = "CREATE TABLE answers (login TEXT NOT NULL, question INTEGER, answer INTEGER, PRIMARY KEY(login, question), FOREIGN KEY(login) REFERENCES users(login))";
+        final String loginQuestionIndexQuery = "CREATE INDEX login_question ON answers(login,question)";
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
             db.createTable(createUserTableQuery);
             db.createIndex(loginPasswordIndexQuery);
             db.createTable(createAnswersTableQuery);
+            db.createIndex(loginQuestionIndexQuery);
         } finally {
             db.commit();
         }
