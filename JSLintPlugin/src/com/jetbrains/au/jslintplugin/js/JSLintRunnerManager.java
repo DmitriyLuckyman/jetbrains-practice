@@ -1,5 +1,6 @@
 package com.jetbrains.au.jslintplugin.js;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +18,11 @@ public class JSLintRunnerManager {
     private static final JSLintRunnerManager instance = new JSLintRunnerManager();
 
     public JSLintRunnerManager() {
-        this.runner = new RhinoJSLintRunner();
+        try {
+            this.runner = new RhinoJSLintRunner();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static JSLintRunnerManager getInstance() {
