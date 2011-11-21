@@ -51,6 +51,7 @@ public class JavaPuzzlersGame {
     private JPanel codeWrapPanel;
 
     private JButton previousPuzzlerButton;
+    private JTextArea questionField;
     private int puzzlerNumber;
     private int rightAnswer;
 
@@ -97,6 +98,19 @@ public class JavaPuzzlersGame {
 
     }
 
+    private void parseQuestion(int number) {
+        try {
+            File questionTemplateFile = getQuestionFile(number);
+            Scanner sc = new Scanner(questionTemplateFile);
+            questionField.setText("");
+            while (sc.hasNext()) {
+                questionField.append(sc.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean checkAnswer() {
         if (answers.get(rightAnswer - 1).isSelected()) {
             isRight.setText("Your answer is right!");
@@ -140,6 +154,7 @@ public class JavaPuzzlersGame {
                     mainPanel.revalidate();
                     javaCodeLabel.setText("Puzzler number #" + number);
                     parseAnswers(number);
+                    parseQuestion(number);
                 } catch (FileNotFoundException e) {
                     runButton.setEnabled(false);
                     e.printStackTrace();
@@ -161,6 +176,12 @@ public class JavaPuzzlersGame {
         return new File(path + "classes" + File.separator + "Puzzler" + number + ".in");
     }
 
+    private File getQuestionFile(int number) {
+        IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
+        String path = descriptor.getPath().getAbsolutePath() + File.separator;
+        return new File(path + "classes" + File.separator + "Question" + number + ".in");
+    }
+
     private void initAnswers() {
         answers.clear();
         answers.add(answer1);
@@ -169,8 +190,7 @@ public class JavaPuzzlersGame {
     }
 
     public JavaPuzzlersGame() {
-        //puzzlerNumber = 1;
-        //initAnswers();
+        initAnswers();
         answerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 checkAnswer();
