@@ -87,12 +87,12 @@ public class ConfigurationForm {
                     options.put(optionName, String.valueOf(checkBox.isSelected()));
                     break;
                 case NUMBER:
-                    JTextComponent text = (JTextComponent) component;
+                    JFormattedTextField text = (JFormattedTextField) component;
                     Integer integer = null;
                     try {
-                        integer = Integer.valueOf(text.getText());
-                    } catch (NumberFormatException e) {
-                        // ignore
+                        integer = (Integer) text.getValue();
+                    } catch (ClassCastException e) {
+                        e.printStackTrace();
                     }
                     options.put(optionName, String.valueOf(integer));
                     break;

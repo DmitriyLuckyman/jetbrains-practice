@@ -14,6 +14,13 @@ import java.util.List;
  * User: Dmitriy Bandurin
  */
 public class RhinoJSLintRunner implements JSLintRunner {
+    private static final String JS_LINT_SOURCE_PATH = "com/jetbrains/au/jslintplugin/js/jslint.js";
+    private String jsLintSourceString;
+
+    public RhinoJSLintRunner() throws IOException {
+        URL resource = RhinoJSLintRunner.class.getClassLoader().getResource(JS_LINT_SOURCE_PATH);
+        jsLintSourceString = getSourceAsString(resource.openStream());
+    }
 
     public List<ErrorBean> validateScriptFile(@NotNull String scriptFileName, @NotNull List<Option> options) throws IOException {
           return validateScriptInputStream(new FileInputStream(scriptFileName), options);
@@ -28,7 +35,7 @@ public class RhinoJSLintRunner implements JSLintRunner {
         Context cx = Context.enter();
         try {
             Scriptable scope = cx.initStandardObjects();
-            Function jsLint = (Function) getJSLintFunction(cx, scope);
+            Function jsLint = getJSLintFunction(cx, scope);
             Object functionArgs[] = {scriptString, convertToNativeObject(options)};
             Object status = jsLint.call(cx, scope, scope, functionArgs);
             Boolean noErrors = (Boolean) Context.jsToJava(status, Boolean.class);
@@ -73,27 +80,13 @@ public class RhinoJSLintRunner implements JSLintRunner {
         return object;
     }
 
-    private Object getJSLintFunction(@NotNull Context cx, @NotNull Scriptable scope) throws IOException {
-        URL resource = RhinoJSLintRunner.class.getClassLoader().getResource("com/jetbrains/au/jslintplugin/js/jslint.js");
-        InputStreamReader jsLintReader = null;
-        try{
-            jsLintReader = new InputStreamReader(resource.openStream());
-            cx.evaluateReader(scope, new BufferedReader(jsLintReader), "jslint", 1, null);
-            Object jsLint = scope.get("JSLINT", scope);
-            if (!(jsLint instanceof Function)) {
-                throw new RuntimeException("JSLINT is undefined or not a function.");
-            }
-            return jsLint;
-        } finally {
-            if(jsLintReader != null){
-                //try to close input
-                try {
-                    jsLintReader.close();
-                } catch (Throwable t){
-                    // ignore
-                }
-            }
+    private Function getJSLintFunction(@NotNull Context cx, @NotNull Scriptable scope) throws IOException {
+        cx.evaluateString(scope, jsLintSourceString, "jslint", 1, null);
+        Object jsLint = scope.get("JSLINT", scope);
+        if (!(jsLint instanceof Function)) {
+            throw new RuntimeException("JSLINT is undefined or not a function.");
         }
+        return (Function) jsLint;
     }
 
     private String getSourceAsString(@NotNull InputStream script) throws IOException {
