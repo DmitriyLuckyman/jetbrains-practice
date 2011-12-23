@@ -1,0 +1,16 @@
+public class Main{
+
+
+    public static final void main(String[] args) {
+        String  path = "somepath"; // путь существующий и все права на запись есть
+        String  name = "somename";
+        File file = new File(path, name);
+        file.mkdir();
+        try {
+            file.createNewFile();
+        } catch (Exception e) {
+
+        }
+    }
+
+}

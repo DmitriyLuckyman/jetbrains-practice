@@ -1,0 +1,4 @@
+Change ++i to i++
+Change public void add(int i) to private void add(int i)
+Change public void add(int i) to public void add(Integer i)
+3
