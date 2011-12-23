@@ -1,0 +1,24 @@
+class A {
+}
+
+class B extends A {
+}
+
+class C extends B {
+}
+
+class D {
+}
+
+public class Main {
+
+    public static final void main(String[] args)  {
+        B b = new C();
+        A a = new C();
+        D d = new D();
+        System.out.println(b instanceof A);
+        System.out.println(a instanceof B);
+        System.out.println(d instanceof C);
+    }
+
+}
