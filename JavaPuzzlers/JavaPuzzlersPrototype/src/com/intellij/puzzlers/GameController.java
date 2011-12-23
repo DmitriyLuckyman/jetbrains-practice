@@ -7,17 +7,25 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.puzzlers.ui.JavaPuzzlersGame;
 import com.intellij.puzzlers.ui.Login;
+import com.intellij.puzzlers.ui.Results;
 import org.tmatesoft.sqljet.core.SqlJetException;
 import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
 import org.tmatesoft.sqljet.core.table.ISqlJetCursor;
 import org.tmatesoft.sqljet.core.table.ISqlJetTable;
 import org.tmatesoft.sqljet.core.table.SqlJetDb;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 public class GameController implements Disposable {
     private JPanel mainPanel;
@@ -26,6 +34,7 @@ public class GameController implements Disposable {
 
     private JavaPuzzlersGame javaPuzzlersGame;
     private Login login;
+    private Results results;
 
     private SqlJetDb db;
 
@@ -55,7 +64,14 @@ public class GameController implements Disposable {
             throw new RuntimeException("Project is null!");
         }
         javaPuzzlersGame.setProject(project);
+        results.getMainPanel().setVisible(false);
         javaPuzzlersGame.getMainPanel().setVisible(false);
+        results.getOkButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                javaPuzzlersGame.getMainPanel().setVisible(true);
+                results.getMainPanel().setVisible(false);
+            }
+        });
         login.addOKActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -66,6 +82,7 @@ public class GameController implements Disposable {
                         javaPuzzlersGame.getMainPanel().setVisible(true);
                         javaPuzzlersGame.setPuzzlerNumber(1);
                         javaPuzzlersGame.addPuzzler(1);
+                        javaPuzzlersGame.setCurrentLanguage(login.getLanguage());
                         checkButtonsDuringQuestion(1);
                     }
                 } catch (SqlJetException e1) {
@@ -96,6 +113,17 @@ public class GameController implements Disposable {
                 }
             }
         });
+        javaPuzzlersGame.getResultButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                javaPuzzlersGame.getMainPanel().setVisible(false);
+                results.getMainPanel().setVisible(true);
+                try {
+                    printResults();
+                } catch (SqlJetException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         javaPuzzlersGame.getPreviousPuzzlerButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -123,12 +151,73 @@ public class GameController implements Disposable {
                 }
             }
         });
+        javaPuzzlersGame.getFinishButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                sendResults();
+            }
+        });
         try {
             setupDB();
         } catch (SqlJetException e) {
             e.printStackTrace(System.err);
         } catch (IOException e) {
             e.printStackTrace(System.err);
+        }
+    }
+
+    private String printShortSummary() throws SqlJetException {
+        db.beginTransaction(SqlJetTransactionMode.WRITE);
+        ISqlJetTable table = db.getTable("answers");
+        final ISqlJetCursor cursor = table.lookup("login", login.getLogin());
+        int answered = (int) cursor.getRowCount();
+        int right = 0;
+        if (!cursor.eof()) {
+            do {
+                if (Integer.parseInt(cursor.getString("answer")) == 1) ++right;
+            } while (cursor.next());
+        }
+        cursor.close();
+        db.commit();
+        StringBuilder result = new StringBuilder();
+        result.append("Results of " + login.getLogin() + "\n");
+        result.append("Number of questions: " + javaPuzzlersGame.maxQuestion + "\n");
+        result.append("Number of answers: " + answered + "\n");
+        result.append("Number of right answers: " + right + "\n");
+        return result.toString();
+    }
+
+    private void sendResults() {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("fofanova.mn", "boor2vaY");
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("fofanova.mn@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("fofanova.mn@gmail.com"));
+            message.setSubject("JavaPuzzlers results");
+            message.setText(printShortSummary());
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (SqlJetException e) {
+            e.printStackTrace();
         }
     }
 
@@ -191,17 +280,77 @@ public class GameController implements Disposable {
         }
     }
 
+    private void printResults() throws SqlJetException {
+        db.beginTransaction(SqlJetTransactionMode.WRITE);
+        try {
+            ISqlJetTable table = db.getTable("answers");
+            final ISqlJetCursor cursor = table.lookup("login", login.getLogin());
+            TableModel dataModel = new AbstractTableModel() {
+                String[][] mas = new String[(int) cursor.getRowCount()][2];
+
+                {
+                    makeMas();
+                }
+
+                public int getRowCount() {
+                    try {
+                        return (int) cursor.getRowCount();
+                    } catch (SqlJetException e) {
+                        e.printStackTrace();
+                    }
+                    return 0;
+                }
+
+                public int getColumnCount() {
+                    return 2;
+                }
+
+                public String getColumnName(int i) {
+                    return i == 0 ? "Number of question" : "Result";
+                }
+
+                public void makeMas() throws SqlJetException {
+                    int i = 0;
+                    if (!cursor.eof()) {
+                        do {
+                            mas[i][0] = cursor.getString("question");
+                            mas[i][1] = cursor.getString("answer").equals("1") ? "Correct" : "Incorrect";
+                            i++;
+                        } while (cursor.next());
+                    }
+
+                }
+
+                public Object getValueAt(int row, int col) {
+                    return mas[row][col];
+                }
+            };
+            results.getResultTable().setModel(dataModel);
+            results.getResultsHeader().getColumnModel().addColumn(new TableColumn());
+            results.getResultsHeader().getColumnModel().addColumn(new TableColumn());
+            results.getResultsHeader().getColumnModel().getColumn(0).setHeaderValue("Number of question");
+            results.getResultsHeader().getColumnModel().getColumn(1).setHeaderValue("Your answer is");
+            results.getResultsHeader().getColumnModel().getColumn(0).setWidth(150);
+            results.getResultsHeader().getColumnModel().getColumn(1).setWidth(150);
+            cursor.close();
+        } finally {
+            db.commit();
+        }
+    }
+
     private void createTables() throws SqlJetException {
         final String createUserTableQuery = "CREATE TABLE users (login TEXT NOT NULL PRIMARY KEY , password TEXT NOT NULL)";
         final String loginPasswordIndexQuery = "CREATE INDEX login_password ON users(login,password)";
         final String createAnswersTableQuery = "CREATE TABLE answers (login TEXT NOT NULL, question INTEGER, answer INTEGER, PRIMARY KEY(login, question), FOREIGN KEY(login) REFERENCES users(login))";
         final String loginQuestionIndexQuery = "CREATE INDEX login_question ON answers(login,question)";
+        final String loginAnswersIndexQuery = "CREATE INDEX login ON answers(login)";
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
             db.createTable(createUserTableQuery);
             db.createIndex(loginPasswordIndexQuery);
             db.createTable(createAnswersTableQuery);
             db.createIndex(loginQuestionIndexQuery);
+            db.createIndex(loginAnswersIndexQuery);
         } finally {
             db.commit();
         }
@@ -214,4 +363,5 @@ public class GameController implements Disposable {
             e.printStackTrace(System.err);
         }
     }
+
 }

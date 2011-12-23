@@ -1,10 +1,10 @@
 package com.intellij.puzzlers.ui;
 
-import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.FileASTNode;
+import com.intellij.lang.Language;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.extensions.PluginId;
@@ -35,7 +35,7 @@ import java.util.Scanner;
 
 public class JavaPuzzlersGame {
     List<JRadioButton> answers = new ArrayList<JRadioButton>();
-    public final int maxQuestion = 2;
+    public final int maxQuestion = 10;
     private Project project;
     private JButton runButton;
     private JPanel mainPanel;
@@ -52,15 +52,31 @@ public class JavaPuzzlersGame {
 
     private JButton previousPuzzlerButton;
     private JTextArea questionField;
+    private JButton resultButton;
+    private JButton finishButton;
     private int puzzlerNumber;
     private int rightAnswer;
+
+    private Language currentLanguage;
+
+    public void setCurrentLanguage(Language currentLanguage) {
+        this.currentLanguage = currentLanguage;
+    }
 
     public JButton getRunButton() {
         return runButton;
     }
 
+    public JButton getFinishButton() {
+        return finishButton;
+    }
+
     public int getPuzzlerNumber() {
         return puzzlerNumber;
+    }
+
+    public JButton getResultButton() {
+        return resultButton;
     }
 
     public void setPuzzlerNumber(int number) {
@@ -149,6 +165,7 @@ public class JavaPuzzlersGame {
                             return false;
                         }
                     };
+                    codeWrapPanel.removeAll();
                     codeWrapPanel.add(codeContent);
                     mainPanel.repaint();
                     mainPanel.revalidate();
@@ -167,19 +184,19 @@ public class JavaPuzzlersGame {
     private File getAnswersFile(int number) {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Answers" + number + ".in");
+        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Answers.in");
     }
 
     private File getPuzzleFile(int number) {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Puzzler" + number + ".in");
+        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Puzzler.in");
     }
 
     private File getQuestionFile(int number) {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Question" + number + ".in");
+        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Question.in");
     }
 
     private void initAnswers() {
@@ -221,9 +238,16 @@ public class JavaPuzzlersGame {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                final VirtualFileWrapper fileWrapper = dialog.save(base, resolveClassName() + ".java");
+                if (currentLanguage == null) {
+                    return;
+                }
+                final VirtualFileWrapper fileWrapper = dialog.save(base, resolveClassName() + '.' + currentLanguage.getAssociatedFileType().getDefaultExtension());
                 if (fileWrapper != null) {
-                    onFileToSaveChosen(fileWrapper);
+                    ApplicationManager.getApplication().invokeLater(new Runnable() {
+                        public void run() {
+                            onFileToSaveChosen(fileWrapper);
+                        }
+                    });
                 }
 
             }
@@ -244,8 +268,8 @@ public class JavaPuzzlersGame {
 
     public String resolveClassName() {
         final PsiFile psiFile = PsiFileFactory.getInstance(project).createFileFromText(
-                "Main.java",
-                JavaFileType.INSTANCE,
+                "Main." + currentLanguage.getAssociatedFileType().getDefaultExtension(),
+                currentLanguage.getAssociatedFileType(),
                 codeContent.getText(),
                 LocalTimeCounter.currentTime(),
                 true);
