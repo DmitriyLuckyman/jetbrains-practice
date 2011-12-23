@@ -1,5 +1,7 @@
 package com.intellij.puzzlers.ui;
 
+import com.intellij.lang.Language;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.security.MessageDigest;
@@ -11,6 +13,18 @@ public class Login {
     private JButton OKButton;
     private JButton registrationButton;
     private JPanel mainPanel;
+    private JComboBox langComboBox;
+
+    public Login() {
+        for (Language language : Language.getRegisteredLanguages()) {
+            langComboBox.insertItemAt(language, 0);
+        }
+        langComboBox.setSelectedIndex(0);
+    }
+
+    public Language getLanguage() {
+        return (Language) langComboBox.getSelectedItem();
+    }
 
     public void addOKActionListener(ActionListener al) {
         OKButton.addActionListener(al);
