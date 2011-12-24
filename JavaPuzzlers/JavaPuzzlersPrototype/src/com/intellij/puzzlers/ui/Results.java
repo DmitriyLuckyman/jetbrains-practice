@@ -8,6 +8,7 @@ public class Results extends JComponent {
     private JPanel mainPanel;
     private JTable resultTable;
     private JTableHeader resultsHeader;
+    private JButton exportButton;
     private JTextArea resultTextArea;
 
     public JPanel getMainPanel() {
@@ -20,6 +21,10 @@ public class Results extends JComponent {
 
     public JButton getOkButton() {
         return okButton;
+    }
+
+    public JButton getExportButton() {
+        return exportButton;
     }
 
     public JTextArea getResultTextArea() {

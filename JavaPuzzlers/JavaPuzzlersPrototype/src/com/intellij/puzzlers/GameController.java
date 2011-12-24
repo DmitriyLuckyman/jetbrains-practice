@@ -3,8 +3,15 @@ package com.intellij.puzzlers;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.extensions.PluginId;
+import com.intellij.openapi.fileChooser.FileChooserFactory;
+import com.intellij.openapi.fileChooser.FileSaverDescriptor;
+import com.intellij.openapi.fileChooser.FileSaverDialog;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
 import com.intellij.puzzlers.ui.JavaPuzzlersGame;
 import com.intellij.puzzlers.ui.Login;
 import com.intellij.puzzlers.ui.Results;
@@ -57,6 +64,19 @@ public class GameController implements Disposable {
             javaPuzzlersGame.getAnswerButton().setEnabled(true);
             javaPuzzlersGame.getRunButton().setEnabled(false);
         }
+    }
+
+    private byte[] exportResultsToHtml() {
+        StringBuilder export = new StringBuilder();
+        export.append(" <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n\"http://www.w3.org/TR/html4/strict.dtd\">");
+        export.append("<html> <head> <title> Results of " + login.getLogin() + " </title> </head> <body> <table border=\"1\">");
+        export.append("<tr><td> Question </td><td> Answer is </td></tr>");
+        for (int i = 0; i < results.getResultTable().getRowCount(); ++i) {
+            export.append("<tr><td>" + results.getResultTable().getValueAt(i, 0).toString() + "</td><td>" + results.getResultTable().getValueAt(i, 1).toString() + "</td></tr>");
+        }
+        export.append("</table></body></html>");
+        return export.toString().getBytes();
+
     }
 
     public GameController(Project project) {
@@ -156,6 +176,32 @@ public class GameController implements Disposable {
                 sendResults();
             }
         });
+        results.getExportButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                final FileSaverDescriptor descriptor = new FileSaverDescriptor("Save results to", "");
+                final FileSaverDialog dialog = FileChooserFactory.getInstance().createSaveFileDialog(
+                        descriptor, javaPuzzlersGame.getProject());
+                VirtualFile base = javaPuzzlersGame.getProject().getBaseDir();
+
+                final VirtualFileWrapper fileWrapper = dialog.save(base, "results.html");
+                if (fileWrapper != null) {
+                    ApplicationManager.getApplication().invokeLater(new Runnable() {
+                        public void run() {
+                            final VirtualFile fileToSave = fileWrapper.getVirtualFile(true);
+                            assert fileToSave != null;
+                            try {
+                                fileToSave.setBinaryContent(exportResultsToHtml());
+                                FileEditorManager.getInstance(javaPuzzlersGame.getProject()).openFile(fileToSave, true);
+                            } catch (IOException e) {
+                                e.printStackTrace(System.err);
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
         try {
             setupDB();
         } catch (SqlJetException e) {

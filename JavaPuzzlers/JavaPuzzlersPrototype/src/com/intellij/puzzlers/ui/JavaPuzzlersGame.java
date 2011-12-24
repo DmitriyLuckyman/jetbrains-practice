@@ -63,6 +63,10 @@ public class JavaPuzzlersGame {
         this.currentLanguage = currentLanguage;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
     public JButton getRunButton() {
         return runButton;
     }
