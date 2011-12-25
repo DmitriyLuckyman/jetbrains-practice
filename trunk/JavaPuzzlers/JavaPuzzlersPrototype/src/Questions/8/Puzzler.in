@@ -10,7 +10,7 @@ class B extends A {
     }
 }
 
-public class Main {
+public class Puzzler8 {
 
     public static final void main(String[] args) {
         A a = new B();

@@ -3,7 +3,6 @@ package com.intellij.puzzlers.ui;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.FileASTNode;
 import com.intellij.lang.Language;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.ex.EditorEx;
@@ -20,6 +19,7 @@ import com.intellij.psi.JavaTokenType;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.impl.source.tree.java.ClassElement;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.ui.EditorTextField;
 import com.intellij.util.LocalTimeCounter;
 
@@ -263,7 +263,7 @@ public class JavaPuzzlersGame {
         final VirtualFile fileToSave = fileWrapper.getVirtualFile(true);
         assert fileToSave != null;
         try {
-            fileToSave.setBinaryContent(codeContent.getText().getBytes());
+            fileToSave.setBinaryContent(("package puzzlers;\n" + codeContent.getText()).getBytes());
             FileEditorManager.getInstance(project).openFile(fileToSave, true);
         } catch (IOException e) {
             e.printStackTrace(System.err);
@@ -277,16 +277,18 @@ public class JavaPuzzlersGame {
                 codeContent.getText(),
                 LocalTimeCounter.currentTime(),
                 true);
-        FileASTNode node = psiFile.getNode();
-        ASTNode classNode = node.findChildByType(ClassElement.CLASS);
-        if (classNode == null) {
+        ASTNode node = psiFile.getNode();
+        if (node == null) {
             return "Main";
         }
-        ASTNode classNameNode = classNode.findChildByType(JavaTokenType.IDENTIFIER);
-        if (classNameNode == null) {
-            return "Main";
+        for (ASTNode classNode : node.getChildren(TokenSet.create(ClassElement.CLASS))) {
+            final ASTNode modifierList = classNode.findChildByType(ClassElement.MODIFIER_LIST);
+
+            if (modifierList != null && modifierList.getText().contains("public"))
+                return classNode.findChildByType(JavaTokenType.IDENTIFIER).getText();
         }
-        return classNameNode.getText();
+        while (node != null) ;
+        return "Main";
     }
 
     public JPanel getMainPanel() {
