@@ -34,6 +34,12 @@
               <text value="Open Configuration"/>
             </properties>
           </component>
+          <component id="800da" class="javax.swing.JLabel" binding="totalNumberOfErrors">
+            <constraints/>
+            <properties>
+              <text value="Label"/>
+            </properties>
+          </component>
         </children>
       </toolbar>
       <scrollpane id="a4353">

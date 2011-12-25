@@ -1,7 +1,6 @@
 package com.jetbrains.au.jslintplugin.toolwindow;
 
 import com.intellij.ide.DataManager;
-import com.intellij.ide.macro.PromptMacro;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -37,6 +36,7 @@ public class JsLinkToolWindow {
     private JButton openConfigurationButton;
     private JTable errorList;
     private JPanel rootComponent;
+    private JLabel totalNumberOfErrors;
 
     public JsLinkToolWindow() {
         runButton.addActionListener(new ActionListener() {
@@ -45,6 +45,7 @@ public class JsLinkToolWindow {
                 JsLintValidatorComponent validator = application.getComponent(JsLintValidatorComponent.class);
                 try {
                     ((DefaultTableModel) errorList.getModel()).setRowCount(0);
+                    totalNumberOfErrors.setText("");
                     DataContext toolContext = DataManager.getInstance().getDataContextFromFocus().getResult();
                     Project project = DataKeys.PROJECT.getData(toolContext);
                     Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
@@ -56,12 +57,12 @@ public class JsLinkToolWindow {
                         final DefaultTableModel model = (DefaultTableModel) errorList.getModel();
                         ErrorBeanWrapper errorBeanWrapper = new ErrorBeanWrapper();
                         if (errorBeans.length > 0) {
+                            totalNumberOfErrors.setText(String.format("Total Number Of Errors:%d", errorBeans.length));
                             int counter = 1;
                             for (Object errorBean : errorBeans) {
                                 errorBeanWrapper.setError((NativeObject) errorBean);
                                 model.addRow(errorBeanWrapper.getErrorTableView(counter++));
                             }
-
                         } else {
                             model.addRow(new String[]{"Errors not found", "", ""});
                         }
