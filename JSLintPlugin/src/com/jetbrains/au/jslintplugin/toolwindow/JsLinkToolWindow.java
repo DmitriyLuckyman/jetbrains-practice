@@ -1,6 +1,7 @@
 package com.jetbrains.au.jslintplugin.toolwindow;
 
 import com.intellij.ide.DataManager;
+import com.intellij.ide.macro.PromptMacro;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -12,17 +13,20 @@ import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.au.jslintplugin.JsLintValidatorComponent;
-import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
 import com.jetbrains.au.jslintplugin.js.JSLintRunner;
 import com.jetbrains.au.jslintplugin.js.JSLintRunnerManager;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBeanWrapper;
 import org.jetbrains.annotations.NotNull;
+import org.mozilla.javascript.NativeObject;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * User: Dmitriy Bandurin
@@ -31,7 +35,7 @@ import java.util.List;
 public class JsLinkToolWindow {
     private JButton runButton;
     private JButton openConfigurationButton;
-    private JList errorList;
+    private JTable errorList;
     private JPanel rootComponent;
 
     public JsLinkToolWindow() {
@@ -40,19 +44,26 @@ public class JsLinkToolWindow {
                 Application application = ApplicationManager.getApplication();
                 JsLintValidatorComponent validator = application.getComponent(JsLintValidatorComponent.class);
                 try {
-                    errorList.removeAll();
+                    ((DefaultTableModel) errorList.getModel()).setRowCount(0);
                     DataContext toolContext = DataManager.getInstance().getDataContextFromFocus().getResult();
                     Project project = DataKeys.PROJECT.getData(toolContext);
                     Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
                     if (editor != null) {
                         Document doc = editor.getDocument();
                         JSLintRunner runner = JSLintRunnerManager.getInstance().getRunner();
-                        List<ErrorBean> errorBeans = runner.validateScriptString(doc.getText(),
+                        Object[] errorBeans = runner.validateScriptString(doc.getText(),
                                 validator.getJsLintOptions());
-                        if (errorBeans.size() > 0) {
-                            errorList.setListData(errorBeans.toArray());
+                        final DefaultTableModel model = (DefaultTableModel) errorList.getModel();
+                        ErrorBeanWrapper errorBeanWrapper = new ErrorBeanWrapper();
+                        if (errorBeans.length > 0) {
+                            int counter = 1;
+                            for (Object errorBean : errorBeans) {
+                                errorBeanWrapper.setError((NativeObject) errorBean);
+                                model.addRow(errorBeanWrapper.getErrorTableView(counter++));
+                            }
+
                         } else {
-                            errorList.setListData(new String[]{"Errors not found"});
+                            model.addRow(new String[]{"Errors not found", "", ""});
                         }
                     }
                 } catch (IOException e1) {
@@ -77,5 +88,25 @@ public class JsLinkToolWindow {
     @NotNull
     public  JPanel getRootComponent() {
         return rootComponent;
+    }
+
+    private void createUIComponents() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("№");
+        model.addColumn("Line");
+        model.addColumn("Character");
+        model.addColumn("Reason");
+        errorList = new JTable(model);
+        errorList.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        final TableColumn column0 = errorList.getColumnModel().getColumn(0);
+        column0.setMaxWidth(100);
+        column0.setMinWidth(50);
+        final TableColumn column1 = errorList.getColumnModel().getColumn(1);
+        column1.setMaxWidth(100);
+        column1.setMinWidth(50);
+        final TableColumn column2 = errorList.getColumnModel().getColumn(2);
+        column2.setMaxWidth(100);
+        column2.setMinWidth(50);
+        errorList.getColumnModel().getColumn(3).setMinWidth(300);
     }
 }

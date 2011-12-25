@@ -2,7 +2,7 @@ package com.jetbrains.au.jslintplugin.js.error.processor;
 
 import com.intellij.openapi.util.TextRange;
 import com.jetbrains.au.jslintplugin.config.JsLintOption;
-import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBeanWrapper;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,18 +12,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MissingSpaceProblem extends DefaultProcessor {
     @NotNull
-    public TextRange getSelectionRange(@NotNull String text, int offset, @NotNull ErrorBean error) {
-        final int startOffset = text.substring(0, offset + error.getCharacter()).lastIndexOf(error.getA());
-        final int endIndex = text.indexOf(error.getB(), startOffset) + 1;
+    public TextRange getSelectionRange(@NotNull String text, int offset, @NotNull ErrorBeanWrapper errorWrapper) {
+        final int startOffset = text.substring(0, offset + errorWrapper.getCharacter()).lastIndexOf(errorWrapper.getA());
+        final int endIndex = text.indexOf(errorWrapper.getB(), startOffset) + 1;
         return new TextRange(startOffset, endIndex);
     }
 
-    public String getRelatedOption(@NotNull ErrorBean error) {
+    public String getRelatedOption(@NotNull ErrorBeanWrapper errorWrapper) {
         return JsLintOption.WHITE.getName();
     }
 
     @NotNull
-    public String getMessage(@NotNull ErrorBean errorBean) {
-        return errorBean.getReason();
+    public String getMessage(@NotNull ErrorBeanWrapper errorBeanWrapper) {
+        return errorBeanWrapper.getReason();
     }
 }
