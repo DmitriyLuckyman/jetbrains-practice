@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -53,7 +54,6 @@ public class JavaPuzzlersGame {
     private JButton previousPuzzlerButton;
     private JTextArea questionField;
     private JButton resultButton;
-    private JButton finishButton;
     private int puzzlerNumber;
     private int rightAnswer;
 
@@ -69,10 +69,6 @@ public class JavaPuzzlersGame {
 
     public JButton getRunButton() {
         return runButton;
-    }
-
-    public JButton getFinishButton() {
-        return finishButton;
     }
 
     public int getPuzzlerNumber() {
@@ -106,7 +102,7 @@ public class JavaPuzzlersGame {
 
     private void parseAnswers(int number) {
         try {
-            File answerTemplateFile = getAnswersFile(number);
+            InputStream answerTemplateFile = getAnswersFile(number);
             Scanner sc = new Scanner(answerTemplateFile);
             answer1.setText(sc.nextLine());
             answer2.setText(sc.nextLine());
@@ -120,7 +116,7 @@ public class JavaPuzzlersGame {
 
     private void parseQuestion(int number) {
         try {
-            File questionTemplateFile = getQuestionFile(number);
+            InputStream questionTemplateFile = getQuestionFile(number);
             Scanner sc = new Scanner(questionTemplateFile);
             questionField.setText("");
             while (sc.hasNext()) {
@@ -145,7 +141,7 @@ public class JavaPuzzlersGame {
         ApplicationManager.getApplication().invokeLater(new Runnable() {
             public void run() {
                 try {
-                    File puzzlerTemplateFile = getPuzzleFile(number);
+                    InputStream puzzlerTemplateFile = getPuzzleFile(number);
                     Scanner sc = new Scanner(puzzlerTemplateFile);
                     StringBuilder sb = new StringBuilder();
                     while (sc.hasNext()) {
@@ -185,22 +181,25 @@ public class JavaPuzzlersGame {
         });
     }
 
-    private File getAnswersFile(int number) {
+    private InputStream getAnswersFile(int number) throws FileNotFoundException {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Answers.in");
+        return JavaPuzzlersGame.class.getClassLoader().getResourceAsStream("Questions" + File.separator + number + File.separator + "Answers.in");
+        //return new FileInputStream(new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Answers.in"));
     }
 
-    private File getPuzzleFile(int number) {
+    private InputStream getPuzzleFile(int number) throws FileNotFoundException {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Puzzler.in");
+        return JavaPuzzlersGame.class.getClassLoader().getResourceAsStream("Questions" + File.separator + number + File.separator + "Puzzler.in");
+        //return new FileInputStream(new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Puzzler.in"));
     }
 
-    private File getQuestionFile(int number) {
+    private InputStream getQuestionFile(int number) throws FileNotFoundException {
         IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("com.jetbrains.puzzlers"));
         String path = descriptor.getPath().getAbsolutePath() + File.separator;
-        return new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Question.in");
+        return JavaPuzzlersGame.class.getClassLoader().getResourceAsStream("Questions" + File.separator + number + File.separator + "Question.in");
+        //return new FileInputStream(new File(path + "classes" + File.separator + "Questions" + File.separator + number + File.separator + "Question.in"));
     }
 
     private void initAnswers() {
