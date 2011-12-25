@@ -2,6 +2,7 @@ package com.jetbrains.au.jslintplugin.js.error;
 
 import com.jetbrains.au.jslintplugin.js.error.processor.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -222,7 +223,7 @@ public class ErrorBeanHelper {
         return getProcessor(errorBeanWrapper.getRaw());
     }
 
-    public static ErrorProcessor getProcessor(@NotNull final String key) {
+    public static ErrorProcessor getProcessor(@Nullable final String key) {
         ErrorProcessor instance = null;
         if (errorMapping.containsKey(key)) {
             Class<? extends ErrorProcessor> processor = errorMapping.get(key);
