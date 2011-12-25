@@ -1,6 +1,6 @@
-class Main{
+class Puzzler10 {
 public static void print(List<? extends String> list)
 {
-            // сюда можно добавить...
+            // it is possible to insert here...
 }
 }

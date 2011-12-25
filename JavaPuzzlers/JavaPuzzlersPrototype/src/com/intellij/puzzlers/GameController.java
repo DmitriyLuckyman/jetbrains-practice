@@ -5,10 +5,10 @@ import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.extensions.PluginId;
+import com.intellij.openapi.fileChooser.FileChooserDialog;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileChooser.FileSaverDialog;
-import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
@@ -64,19 +64,6 @@ public class GameController implements Disposable {
             javaPuzzlersGame.getAnswerButton().setEnabled(true);
             javaPuzzlersGame.getRunButton().setEnabled(false);
         }
-    }
-
-    private byte[] exportResultsToHtml() {
-        StringBuilder export = new StringBuilder();
-        export.append(" <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n\"http://www.w3.org/TR/html4/strict.dtd\">");
-        export.append("<html> <head> <title> Results of " + login.getLogin() + " </title> </head> <body> <table border=\"1\">");
-        export.append("<tr><td> Question </td><td> Answer is </td></tr>");
-        for (int i = 0; i < results.getResultTable().getRowCount(); ++i) {
-            export.append("<tr><td>" + results.getResultTable().getValueAt(i, 0).toString() + "</td><td>" + results.getResultTable().getValueAt(i, 1).toString() + "</td></tr>");
-        }
-        export.append("</table></body></html>");
-        return export.toString().getBytes();
-
     }
 
     public GameController(Project project) {
@@ -171,9 +158,11 @@ public class GameController implements Disposable {
                 }
             }
         });
-        javaPuzzlersGame.getFinishButton().addActionListener(new ActionListener() {
+        results.getSendButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                sendResults();
+                JFrame frame = new JFrame();
+                Object email = JOptionPane.showInputDialog(frame, "Enter email: ");
+                sendResults(email.toString());
             }
         });
         results.getExportButton().addActionListener(new ActionListener() {
@@ -190,8 +179,7 @@ public class GameController implements Disposable {
                             final VirtualFile fileToSave = fileWrapper.getVirtualFile(true);
                             assert fileToSave != null;
                             try {
-                                fileToSave.setBinaryContent(exportResultsToHtml());
-                                FileEditorManager.getInstance(javaPuzzlersGame.getProject()).openFile(fileToSave, true);
+                                fileToSave.setBinaryContent(results.exportResultsToXML(login.getLogin()).getBytes());
                             } catch (IOException e) {
                                 e.printStackTrace(System.err);
                             }
@@ -201,6 +189,16 @@ public class GameController implements Disposable {
 
             }
         });
+        results.getXsltButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                final FileSaverDescriptor descriptor = new FileSaverDescriptor("Choose xsl file", "xsl");
+                final FileChooserDialog dialog = FileChooserFactory.getInstance().createFileChooser(descriptor, javaPuzzlersGame.getProject());
+                VirtualFile[] xsl = dialog.choose(null, javaPuzzlersGame.getProject());
+                results.transformXML(javaPuzzlersGame.getProject(), login.getLogin(), xsl[0]);
+
+            }
+        });
+
 
         try {
             setupDB();
@@ -232,7 +230,7 @@ public class GameController implements Disposable {
         return result.toString();
     }
 
-    private void sendResults() {
+    private void sendResults(String s) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -253,7 +251,7 @@ public class GameController implements Disposable {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("fofanova.mn@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("fofanova.mn@gmail.com"));
+                    InternetAddress.parse(s));
             message.setSubject("JavaPuzzlers results");
             message.setText(printShortSummary());
             Transport.send(message);
@@ -376,8 +374,8 @@ public class GameController implements Disposable {
             results.getResultsHeader().getColumnModel().addColumn(new TableColumn());
             results.getResultsHeader().getColumnModel().getColumn(0).setHeaderValue("Number of question");
             results.getResultsHeader().getColumnModel().getColumn(1).setHeaderValue("Your answer is");
-            results.getResultsHeader().getColumnModel().getColumn(0).setWidth(150);
-            results.getResultsHeader().getColumnModel().getColumn(1).setWidth(150);
+            results.getResultsHeader().getColumnModel().getColumn(0).setWidth(300);
+            results.getResultsHeader().getColumnModel().getColumn(1).setWidth(300);
             cursor.close();
         } finally {
             db.commit();

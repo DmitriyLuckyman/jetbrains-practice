@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class Main {
+public class Puzzler4 {
 
 
     public static final void main(String[] args) throws Exception {
