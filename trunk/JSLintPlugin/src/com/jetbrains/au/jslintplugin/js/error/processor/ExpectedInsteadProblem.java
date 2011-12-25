@@ -2,7 +2,7 @@ package com.jetbrains.au.jslintplugin.js.error.processor;
 
 import com.intellij.openapi.util.TextRange;
 import com.jetbrains.au.jslintplugin.config.JsLintOption;
-import com.jetbrains.au.jslintplugin.js.error.ErrorBean;
+import com.jetbrains.au.jslintplugin.js.error.ErrorBeanWrapper;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,27 +12,27 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ExpectedInsteadProblem extends DefaultProcessor {
     @NotNull
-    public TextRange getSelectionRange(@NotNull String text, int offset, @NotNull ErrorBean error) {
-        int startIndex = text.indexOf(error.getB(), offset);
+    public TextRange getSelectionRange(@NotNull String text, int offset, @NotNull ErrorBeanWrapper errorWrapper) {
+        int startIndex = text.indexOf(errorWrapper.getB(), offset);
         if(startIndex == -1) {
-            startIndex = offset + error.getCharacter() - 2;
+            startIndex = offset + errorWrapper.getCharacter() - 2;
         }
 
-        int endOffset = startIndex + error.getB().length();
+        int endOffset = startIndex + errorWrapper.getB().length();
         if (endOffset >= text.length()){
             endOffset = text.length() - 1;
         }
         return new TextRange(startIndex, endOffset);
     }
 
-    public String getRelatedOption(@NotNull ErrorBean error) {
-        if("===".equals(error.getA()))
+    public String getRelatedOption(@NotNull ErrorBeanWrapper errorWrapper) {
+        if("===".equals(errorWrapper.getA()))
             return JsLintOption.EQEQ.getName();
         return null;
     }
 
     @NotNull
-    public String getMessage(@NotNull ErrorBean errorBean) {
-        return errorBean.getReason();
+    public String getMessage(@NotNull ErrorBeanWrapper errorBeanWrapper) {
+        return errorBeanWrapper.getReason();
     }
 }

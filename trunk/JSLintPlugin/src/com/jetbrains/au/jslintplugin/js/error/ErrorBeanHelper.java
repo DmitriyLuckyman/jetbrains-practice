@@ -218,19 +218,25 @@ public class ErrorBeanHelper {
         errorMapping.put("document.write can be a form of eval.", defaultProcessor);
     }
 
-    public static ErrorProcessor getProcessor(@NotNull final ErrorBean errorBean){
+    public static ErrorProcessor getProcessor(@NotNull final ErrorBeanWrapper errorBeanWrapper){
+        return getProcessor(errorBeanWrapper.getRaw());
+    }
+
+    public static ErrorProcessor getProcessor(@NotNull final String key) {
         ErrorProcessor instance = null;
-        if(errorMapping.containsKey(errorBean.getRaw())){
-            Class<? extends ErrorProcessor> processor = errorMapping.get(errorBean.getRaw());
+        if (errorMapping.containsKey(key)) {
+            Class<? extends ErrorProcessor> processor = errorMapping.get(key);
             try {
                 instance = processor.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(instance == null){
+
+        if (instance == null) {
             instance = new DefaultProcessor();
         }
+
         return instance;
     }
 }
