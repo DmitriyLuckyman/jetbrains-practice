@@ -1,6 +1,0 @@
-class Puzzler10 {
-public static void print(List<? extends String> list)
-{
-            // it is possible to insert here...
-}
-}
